@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>微信公众号 Markdown 转 HTML</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      color: #172033;
+      background: #f5f7fb;
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 20px;
+      border-bottom: 1px solid #e5e7eb;
+      background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      min-width: 220px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: #667085;
+      font-size: 13px;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button,
+    select {
+      height: 34px;
+      border: 1px solid #d0d5dd;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #172033;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 0 12px;
+      cursor: pointer;
+    }
+
+    button.primary {
+      border-color: #1d4ed8;
+      background: #1d4ed8;
+      color: #ffffff;
+    }
+
+    button:hover {
+      filter: brightness(0.98);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(360px, 1fr) minmax(360px, 1fr);
+      gap: 14px;
+      padding: 14px;
+      height: calc(100vh - 64px);
+    }
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-bottom: 1px solid #eef0f4;
+      color: #475467;
+      font-size: 13px;
+    }
+
+    .panel-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-actions button {
+      height: 28px;
+      padding: 0 10px;
+      font-size: 13px;
+    }
+
+    textarea {
+      flex: 1;
+      width: 100%;
+      min-height: 0;
+      resize: none;
+      padding: 18px;
+      border: 0;
+      outline: 0;
+      font: 15px/1.7 Consolas, "SFMono-Regular", Menlo, monospace;
+      color: #111827;
+    }
+
+    .preview-wrap {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding: 24px;
+      background: #f7f8fb;
+    }
+
+    #wechatPreview {
+      max-width: 677px;
+      min-height: 100%;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 24px 20px 34px;
+    }
+
+    .status {
+      color: #667085;
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .app-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .toolbar {
+        justify-content: flex-start;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .panel {
+        min-height: 520px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <h1>微信公众号 Markdown 转 HTML</h1>
+      <p>写 Markdown，复制微信兼容富文本。</p>
+    </div>
+    <div class="toolbar">
+      <select id="themeSelect" aria-label="选择主题">
+        <option value="tech">技术蓝</option>
+        <option value="minimal">极简黑白</option>
+        <option value="green">清爽绿色</option>
+      </select>
+      <button id="sampleBtn" type="button">示例</button>
+      <button id="clearBtn" type="button">清空</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <div class="panel-title">
+        <span>Markdown 原稿</span>
+        <span class="status">支持标题、表格、引用、提示块、代码块</span>
+      </div>
+      <textarea id="markdownInput" spellcheck="false"></textarea>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">
+        <span>微信预览</span>
+        <div class="panel-actions">
+          <span id="copyStatus" class="status">复制后粘贴到公众号正文区</span>
+          <button id="copyRichPanelBtn" class="primary" type="button">复制</button>
+        </div>
+      </div>
+      <div class="preview-wrap">
+        <article id="wechatPreview"></article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const themes = {
+      tech: {
+        primary: '#2563eb',
+        secondary: '#06b6d4',
+        soft: '#eff6ff',
+        softBorder: '#bfdbfe',
+        text: '#1f2937',
+        muted: '#667085',
+        heading: '#111827',
+        codeBg: '#0f172a',
+        codeText: '#e5e7eb',
+        tableHead: '#eff6ff'
+      },
+      minimal: {
+        primary: '#111827',
+        secondary: '#475467',
+        soft: '#f7f7f8',
+        softBorder: '#d0d5dd',
+        text: '#24292f',
+        muted: '#667085',
+        heading: '#111827',
+        codeBg: '#1f2937',
+        codeText: '#f9fafb',
+        tableHead: '#f3f4f6'
+      },
+      green: {
+        primary: '#059669',
+        secondary: '#0f766e',
+        soft: '#ecfdf5',
+        softBorder: '#a7f3d0',
+        text: '#1f2937',
+        muted: '#667085',
+        heading: '#0f172a',
+        codeBg: '#10201b',
+        codeText: '#d1fae5',
+        tableHead: '#ecfdf5'
+      }
+    };
+
+    const sampleMarkdown = `# Playwright 和 Puppeteer 怎么选？
+
+做 Node 自动化爬虫，经常会遇到两个选择：
+
+Playwright，还是 Puppeteer？
+
+**新项目优先选 Playwright。已有 Puppeteer 项目稳定运行，就继续用 Puppeteer。**
+
+## 一句话区别
+
+Puppeteer 更像一个 Chrome 自动化工具。
+
+Playwright 更像一套完整的浏览器自动化框架。
+
+> [!NOTE]
+> 不是 Puppeteer 不行，而是 Playwright 更适合复杂流程和长期维护。
+
+## 核心对比
+
+| 对比项 | Puppeteer | Playwright |
+|---|---|---|
+| 主要定位 | Chrome 自动化 | 跨浏览器自动化 |
+| 浏览器支持 | Chrome/Chromium 为主 | Chromium、Firefox、WebKit |
+| 适合场景 | 小脚本、截图、PDF | 长期项目、复杂交互、自动化测试 |
+
+## 怎么选？
+
+- 新项目：选 Playwright
+- 长期维护：选 Playwright
+- Chrome 小脚本：选 Puppeteer
+- 老项目稳定：不要为了迁移而迁移
+
+> [!TIP]
+> 公众号里最稳的是复制富文本，不是直接粘 Markdown。
+
+\`\`\`js
+const browser = await chromium.launch();
+const page = await browser.newPage();
+await page.goto('https://example.com');
+\`\`\`
+`;
+
+    const markdownInput = document.querySelector('#markdownInput');
+    const preview = document.querySelector('#wechatPreview');
+    const themeSelect = document.querySelector('#themeSelect');
+    const copyStatus = document.querySelector('#copyStatus');
+
+    markdownInput.value = localStorage.getItem('wechat-md-source') || sampleMarkdown;
+    themeSelect.value = localStorage.getItem('wechat-md-theme') || 'tech';
+
+    function escapeHtml(value) {
+      return value
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function inline(text) {
+      let value = escapeHtml(text);
+      value = value.replace(/`([^`]+)`/g, '<code data-inline="true">$1</code>');
+      value = value.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      value = value.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      return value;
+    }
+
+    function isTableStart(lines, index) {
+      return lines[index] && lines[index].includes('|') &&
+        lines[index + 1] && /^\s*\|?[\s:-]+\|[\s|:-]+\|?\s*$/.test(lines[index + 1]);
+    }
+
+    function parseTable(lines, start) {
+      const rows = [];
+      let index = start;
+      while (index < lines.length && lines[index].includes('|') && lines[index].trim()) {
+        rows.push(lines[index]);
+        index += 1;
+      }
+
+      const header = splitRow(rows[0]);
+      const bodyRows = rows.slice(2).map(splitRow);
+      const headHtml = header.map(cell => `<th>${inline(cell.trim())}</th>`).join('');
+      const bodyHtml = bodyRows.map(row => `<tr>${row.map(cell => `<td>${inline(cell.trim())}</td>`).join('')}</tr>`).join('');
+
+      return {
+        html: `<div class="table-wrap"><table><thead><tr>${headHtml}</tr></thead><tbody>${bodyHtml}</tbody></table></div>`,
+        next: index
+      };
+    }
+
+    function splitRow(row) {
+      return row.trim().replace(/^\|/, '').replace(/\|$/, '').split('|');
+    }
+
+    function parseList(lines, start, ordered) {
+      const tag = ordered ? 'ol' : 'ul';
+      const pattern = ordered ? /^\s*\d+\.\s+/ : /^\s*[-*]\s+/;
+      const items = [];
+      let index = start;
+
+      while (index < lines.length && pattern.test(lines[index])) {
+        items.push(lines[index].replace(pattern, ''));
+        index += 1;
+      }
+
+      return {
+        html: `<${tag}>${items.map(item => `<li>${inline(item)}</li>`).join('')}</${tag}>`,
+        next: index
+      };
+    }
+
+    function parseBlockquote(lines, start) {
+      const quoteLines = [];
+      let index = start;
+
+      while (index < lines.length && /^>\s?/.test(lines[index])) {
+        quoteLines.push(lines[index].replace(/^>\s?/, ''));
+        index += 1;
+      }
+
+      const first = quoteLines[0] ? quoteLines[0].trim() : '';
+      const calloutMap = {
+        '[!NOTE]': { type: 'note', title: '说明' },
+        '[!TIP]': { type: 'tip', title: '建议' },
+        '[!WARN]': { type: 'warn', title: '提醒' }
+      };
+
+      if (calloutMap[first]) {
+        const meta = calloutMap[first];
+        const body = quoteLines.slice(1).join('\n').trim();
+        return {
+          html: `<section class="callout ${meta.type}"><strong>${meta.title}</strong><p>${inline(body)}</p></section>`,
+          next: index
+        };
+      }
+
+      return {
+        html: `<blockquote>${quoteLines.map(line => `<p>${inline(line)}</p>`).join('')}</blockquote>`,
+        next: index
+      };
+    }
+
+    function markdownToHtml(markdown) {
+      const lines = markdown.replace(/\r\n/g, '\n').split('\n');
+      const blocks = [];
+      let index = 0;
+
+      while (index < lines.length) {
+        const line = lines[index];
+        const trimmed = line.trim();
+
+        if (!trimmed) {
+          index += 1;
+          continue;
+        }
+
+        if (/^```/.test(trimmed)) {
+          const lang = trimmed.replace(/^```/, '').trim();
+          const code = [];
+          index += 1;
+          while (index < lines.length && !/^```/.test(lines[index].trim())) {
+            code.push(lines[index]);
+            index += 1;
+          }
+          index += 1;
+          blocks.push(`<pre><span class="code-lang">${escapeHtml(lang || 'code')}</span><code>${escapeHtml(code.join('\n'))}</code></pre>`);
+          continue;
+        }
+
+        if (isTableStart(lines, index)) {
+          const table = parseTable(lines, index);
+          blocks.push(table.html);
+          index = table.next;
+          continue;
+        }
+
+        if (/^>\s?/.test(line)) {
+          const quote = parseBlockquote(lines, index);
+          blocks.push(quote.html);
+          index = quote.next;
+          continue;
+        }
+
+        if (/^\s*[-*]\s+/.test(line)) {
+          const list = parseList(lines, index, false);
+          blocks.push(list.html);
+          index = list.next;
+          continue;
+        }
+
+        if (/^\s*\d+\.\s+/.test(line)) {
+          const list = parseList(lines, index, true);
+          blocks.push(list.html);
+          index = list.next;
+          continue;
+        }
+
+        if (/^---+$/.test(trimmed)) {
+          blocks.push('<hr>');
+          index += 1;
+          continue;
+        }
+
+        const heading = trimmed.match(/^(#{1,4})\s+(.+)$/);
+        if (heading) {
+          const level = Math.min(heading[1].length, 4);
+          blocks.push(`<h${level}>${inline(heading[2])}</h${level}>`);
+          index += 1;
+          continue;
+        }
+
+        const paragraph = [trimmed];
+        index += 1;
+        while (
+          index < lines.length &&
+          lines[index].trim() &&
+          !/^(#{1,4})\s+/.test(lines[index].trim()) &&
+          !/^>\s?/.test(lines[index]) &&
+          !/^\s*[-*]\s+/.test(lines[index]) &&
+          !/^\s*\d+\.\s+/.test(lines[index]) &&
+          !/^```/.test(lines[index].trim()) &&
+          !isTableStart(lines, index)
+        ) {
+          paragraph.push(lines[index].trim());
+          index += 1;
+        }
+
+        const paragraphText = paragraph.join(' ');
+        if (/^\*\*.+\*\*$/.test(paragraphText)) {
+          blocks.push(`<p class="lead">${inline(paragraphText)}</p>`);
+        } else {
+          blocks.push(`<p>${inline(paragraphText)}</p>`);
+        }
+      }
+
+      return blocks.join('\n');
+    }
+
+    function articleCss(theme) {
+      return `
+        .wechat-article {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+          color: ${theme.text};
+          font-size: 16px;
+          line-height: 1.85;
+          word-break: break-word;
+        }
+        .wechat-article h1 {
+          margin: 0 0 22px;
+          color: ${theme.heading};
+          font-size: 24px;
+          line-height: 1.35;
+          font-weight: 700;
+          letter-spacing: 0;
+        }
+        .wechat-article h2 {
+          margin: 34px 0 16px;
+          padding-left: 12px;
+          border-left: 4px solid ${theme.primary};
+          color: ${theme.heading};
+          font-size: 20px;
+          line-height: 1.4;
+          font-weight: 700;
+        }
+        .wechat-article h3 {
+          margin: 28px 0 12px;
+          color: ${theme.primary};
+          font-size: 17px;
+          line-height: 1.5;
+          font-weight: 700;
+        }
+        .wechat-article h4 {
+          margin: 22px 0 10px;
+          color: ${theme.heading};
+          font-size: 16px;
+          font-weight: 700;
+        }
+        .wechat-article p {
+          margin: 14px 0;
+          color: ${theme.text};
+          font-size: 16px;
+          line-height: 1.85;
+        }
+        .wechat-article .lead {
+          margin: 18px 0;
+          padding: 14px 16px;
+          border-radius: 8px;
+          border: 1px solid ${theme.softBorder};
+          background: ${theme.soft};
+          color: ${theme.heading};
+          font-weight: 700;
+        }
+        .wechat-article strong {
+          color: ${theme.primary};
+          font-weight: 700;
+        }
+        .wechat-article em {
+          color: ${theme.secondary};
+          font-style: normal;
+        }
+        .wechat-article blockquote {
+          margin: 18px 0;
+          padding: 2px 0 2px 14px;
+          border-left: 4px solid ${theme.softBorder};
+          color: ${theme.muted};
+        }
+        .wechat-article blockquote p {
+          margin: 8px 0;
+          color: ${theme.muted};
+        }
+        .wechat-article .callout {
+          margin: 20px 0;
+          padding: 14px 16px;
+          border-radius: 8px;
+          border: 1px solid ${theme.softBorder};
+          background: ${theme.soft};
+        }
+        .wechat-article .callout strong {
+          display: block;
+          margin-bottom: 6px;
+          color: ${theme.primary};
+        }
+        .wechat-article .callout p {
+          margin: 0;
+        }
+        .wechat-article .callout.tip {
+          border-color: #a7f3d0;
+          background: #ecfdf5;
+        }
+        .wechat-article .callout.tip strong {
+          color: #059669;
+        }
+        .wechat-article .callout.warn {
+          border-color: #fde68a;
+          background: #fffbeb;
+        }
+        .wechat-article .callout.warn strong {
+          color: #b45309;
+        }
+        .wechat-article ul,
+        .wechat-article ol {
+          margin: 14px 0;
+          padding-left: 1.4em;
+        }
+        .wechat-article li {
+          margin: 7px 0;
+          line-height: 1.8;
+        }
+        .wechat-article .table-wrap {
+          margin: 18px 0;
+          overflow-x: auto;
+        }
+        .wechat-article table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 14px;
+          line-height: 1.6;
+        }
+        .wechat-article th {
+          padding: 10px 8px;
+          border: 1px solid #e5e7eb;
+          background: ${theme.tableHead};
+          color: ${theme.heading};
+          font-weight: 700;
+          text-align: left;
+        }
+        .wechat-article td {
+          padding: 10px 8px;
+          border: 1px solid #e5e7eb;
+          color: ${theme.text};
+          vertical-align: top;
+        }
+        .wechat-article pre {
+          position: relative;
+          margin: 18px 0;
+          padding: 36px 14px 14px;
+          border-radius: 8px;
+          background: ${theme.codeBg};
+          color: ${theme.codeText};
+          overflow-x: auto;
+          font-size: 13px;
+          line-height: 1.65;
+        }
+        .wechat-article .code-lang {
+          position: absolute;
+          left: 14px;
+          top: 8px;
+          color: #93c5fd;
+          font-size: 12px;
+        }
+        .wechat-article code {
+          font-family: Consolas, "SFMono-Regular", Menlo, monospace;
+        }
+        .wechat-article code[data-inline="true"] {
+          padding: 2px 5px;
+          border-radius: 4px;
+          background: ${theme.soft};
+          color: ${theme.primary};
+          font-size: 90%;
+        }
+        .wechat-article hr {
+          margin: 28px 0;
+          border: 0;
+          border-top: 1px solid #e5e7eb;
+        }
+      `;
+    }
+
+    function inlineStyles(root) {
+      const nodes = [root, ...root.querySelectorAll('*')];
+      const properties = [
+        'display', 'margin', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
+        'padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
+        'border', 'border-left', 'border-radius', 'background', 'background-color',
+        'color', 'font-size', 'font-weight', 'font-style', 'font-family', 'line-height',
+        'letter-spacing', 'text-align', 'vertical-align', 'width', 'max-width',
+        'border-collapse', 'word-break', 'overflow-x'
+      ];
+
+      nodes.forEach(node => {
+        const computed = window.getComputedStyle(node);
+        const style = properties
+          .map(prop => [prop, computed.getPropertyValue(prop)])
+          .filter(([, value]) => value)
+          .map(([prop, value]) => `${prop}: ${value}`)
+          .join('; ');
+        node.setAttribute('style', style);
+      });
+      sanitizeCopiedStyles(root);
+      return root;
+    }
+
+    function sanitizeCopiedStyles(root) {
+      const keepBackgroundSelector = [
+        '.lead',
+        '.callout',
+        '.callout *',
+        'th',
+        'pre',
+        'pre *',
+        'code[data-inline="true"]'
+      ].join(',');
+
+      root.querySelectorAll('*').forEach(node => {
+        const shouldKeepBackground = node.matches(keepBackgroundSelector);
+
+        if (!shouldKeepBackground) {
+          node.style.removeProperty('background');
+          node.style.removeProperty('background-color');
+        }
+
+        // These browser-generated properties make pasted WeChat HTML noisy and can
+        // preserve preview-page artifacts such as gray backgrounds.
+        node.style.removeProperty('box-sizing');
+        node.style.removeProperty('orphans');
+        node.style.removeProperty('widows');
+        node.style.removeProperty('text-transform');
+        node.style.removeProperty('text-decoration-thickness');
+        node.style.removeProperty('text-decoration-style');
+        node.style.removeProperty('text-decoration-color');
+        node.style.removeProperty('-webkit-text-stroke-width');
+      });
+
+      root.style.removeProperty('background');
+      root.style.removeProperty('background-color');
+    }
+
+    function render() {
+      const theme = themes[themeSelect.value];
+      const articleHtml = markdownToHtml(markdownInput.value);
+      preview.innerHTML = `
+        <style>${articleCss(theme)}</style>
+        <section class="wechat-article">${articleHtml}</section>
+      `;
+      localStorage.setItem('wechat-md-source', markdownInput.value);
+      localStorage.setItem('wechat-md-theme', themeSelect.value);
+    }
+
+    async function copyRichText() {
+      const article = preview.querySelector('.wechat-article');
+      let articleClone = null;
+
+      if (!article) {
+        return;
+      }
+
+      try {
+        articleClone = prepareArticleForCopy(article);
+        const html = articleClone.outerHTML;
+        const text = articleClone.innerText;
+
+        if (navigator.clipboard && window.ClipboardItem) {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              'text/html': new Blob([html], { type: 'text/html' }),
+              'text/plain': new Blob([text], { type: 'text/plain' })
+            })
+          ]);
+          articleClone.parentElement?.remove();
+          setStatus('已复制富文本，可以粘贴到公众号');
+          return;
+        }
+
+        const selection = window.getSelection();
+        const range = document.createRange();
+
+        selection.removeAllRanges();
+        range.selectNodeContents(articleClone);
+        selection.addRange(range);
+        document.execCommand('copy');
+        selection.removeAllRanges();
+        articleClone.parentElement?.remove();
+        setStatus('已复制富文本，可以粘贴到公众号');
+      } catch (error) {
+        articleClone?.parentElement?.remove();
+        setStatus('复制失败，请手动选中右侧预览复制');
+      }
+    }
+
+    function prepareArticleForCopy(article) {
+      const cloneWrap = document.createElement('div');
+      cloneWrap.style.position = 'fixed';
+      cloneWrap.style.left = '-9999px';
+      cloneWrap.style.top = '0';
+      cloneWrap.style.width = '677px';
+      cloneWrap.style.background = '#ffffff';
+
+      const articleClone = article.cloneNode(true);
+      cloneWrap.appendChild(articleClone);
+      document.body.appendChild(cloneWrap);
+      inlineStyles(articleClone);
+
+      return articleClone;
+    }
+
+    function setStatus(text) {
+      copyStatus.textContent = text;
+      window.clearTimeout(setStatus.timer);
+      setStatus.timer = window.setTimeout(() => {
+        copyStatus.textContent = '复制后粘贴到公众号正文区';
+      }, 2200);
+    }
+
+    markdownInput.addEventListener('input', render);
+    themeSelect.addEventListener('change', render);
+    document.querySelector('#sampleBtn').addEventListener('click', () => {
+      markdownInput.value = sampleMarkdown;
+      render();
+    });
+    document.querySelector('#clearBtn').addEventListener('click', () => {
+      markdownInput.value = '';
+      render();
+    });
+    document.querySelector('#copyRichPanelBtn').addEventListener('click', copyRichText);
+
+    render();
+  </script>
+</body>
+</html>
