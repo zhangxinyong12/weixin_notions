@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>预览 · 把深度思考工程化</title>
+<style>
+  body{margin:0;background:#f1f5f9;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;}
+  #toolbar{position:sticky;top:0;background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.05);z-index:10;}
+  #toolbar .title{font-size:13px;color:#64748b;}
+  #copyBtn{background:#1d4ed8;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:14px;font-weight:600;cursor:pointer;}
+  #copyBtn:hover{background:#1e40af;}
+  #stage{max-width:680px;margin:24px auto;background:#fff;padding:24px 0;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.06);}
+</style>
+</head>
+<body>
+  <div id="toolbar">
+    <span class="title">公众号排版预览 · 点右上角一键复制</span>
+    <button id="copyBtn" onclick="copyArticle()">复制到公众号</button>
+  </div>
+  <div id="stage">
+    <section style="max-width:680px;margin:0 auto;padding:24px 16px;font-size:16px;line-height:1.85;color:#1e293b;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;">
+
+      <p style="margin:0 0 14px;"><span style="display:inline-block;font-size:12px;letter-spacing:2px;color:#1e3a8a;background:#eff6ff;padding:4px 10px;border-radius:4px;font-weight:600;"><span leaf="">AI Agent · 架构深度拆解</span></span></p>
+
+      <p style="margin:0 0 12px;font-size:24px;font-weight:800;line-height:1.45;color:#1e293b;"><span leaf="">做了一年 AI Agent，我终于把“深度思考”工程化了</span></p>
+
+      <p style="margin:0 0 26px;font-size:14.5px;color:#64748b;line-height:1.9;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:14px 4px;"><span leaf="">复杂问题答不好、汇总像拼接、过程全黑盒——根因都是同一个：缺一个“规划层”。这篇拆解一个真正能处理复杂问题的深度研究 Agent，是怎么一步步搭起来的。不讲概念，讲架构。</span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1e293b;border-left:4px solid #1d4ed8;padding-left:12px;line-height:1.5;"><span leaf="">一、我的 Agent，一遇复杂问题就拉胯</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">简单问题，单 Agent 秒杀：查个数据、翻译一段、提取个指标。但一旦用户问——</span></p>
+
+      <p style="margin:0 0 16px;padding:14px 16px;background:#f8fafc;border-radius:8px;font-size:15px;color:#1e3a8a;line-height:1.8;"><span leaf="">“分析这家公司未来三年的核心风险，并判断它值不值得投资。”</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">系统就开始崩，而且是四种崩法：</span></p>
+
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#1e3a8a;font-weight:700;"><span leaf="">① 漏</span></span><span leaf="">：只识别出一个主意图，子问题全丢。</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#1e3a8a;font-weight:700;"><span leaf="">② 乱</span></span><span leaf="">：一堆 Agent 同时被触发，谁先谁后没人管。</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#1e3a8a;font-weight:700;"><span leaf="">③ 散</span></span><span leaf="">：各答各的，没有统一标准，也没有互相校验。</span></p>
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.8;"><span style="color:#1e3a8a;font-weight:700;"><span leaf="">④ 糊</span></span><span leaf="">：最后的汇总，就是把几段输出粘贴在一起。</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">我折腾很久才看清根因：</span><strong style="color:#1e3a8a;"><span leaf="">我让路由器（Router）去理解整个复杂问题，它扛不动</span></strong><span leaf="">。Router 擅长的是“为一个明确的任务选执行者”，不是“拆解一个发散的大问题”。</span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1e293b;border-left:4px solid #1d4ed8;padding-left:12px;line-height:1.5;"><span leaf="">二、第一个认知转弯：先判断“问题粒度”，再谈意图</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">老链路是</span><span leaf="">问题 → 意图识别 → 单个 Agent</span><span leaf="">。它适合边界清楚的简单问题。复杂问题的正确姿势是：</span><strong style="color:#1e3a8a;"><span leaf="">先分诊，再决定要不要规划</span></strong><span leaf="">。</span></p>
+
+      <p style="margin:0 0 16px;padding:12px 16px;background:#f8fafc;border-radius:8px;font-size:14.5px;color:#475569;line-height:2;"><span leaf="">简单问题 → 直接 Router → 单 Agent → 答案</span><br><span leaf="">复杂问题 → 先拆成任务 → 再 Router 逐个路由 → 多 Agent 执行 → 汇总校验</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">注意：意图识别没有被淘汰，它是被</span><strong style="color:#1e3a8a;"><span leaf="">降级</span></strong><span leaf="">了——从“理解整个用户问题”，变成“为已经拆好的单个任务，选一个执行者”。这是它能做好的事。</span></p>
+
+      <p style="margin:0 0 16px;padding:14px 16px;background:#eff6ff;border-left:4px solid #1d4ed8;border-radius:0 8px 8px 0;line-height:1.85;"><span style="font-size:15px;color:#1e3a8a;font-weight:700;"><span leaf="">一句话原则</span></span><br><span style="font-size:15px;color:#1e293b;"><span leaf="">保留你的意图路由，但别再让它直接扛复杂问题；先让 Planner 把问题拆成任务，再让 Router 对任务做路由。</span></span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1e293b;border-left:4px solid #1d4ed8;padding-left:12px;line-height:1.5;"><span leaf="">三、一个深度研究 Agent，其实有九个节点</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">把上面的原则展开，完整链路长这样。每个节点只干一件事：</span></p>
+
+      <section style="margin:0 0 16px;padding:16px 18px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;font-size:14px;line-height:1.8;">
+        <p style="margin:0 0 8px;"><strong style="color:#1d4ed8;"><span leaf="">Query Triage 分诊</span></strong><span leaf=""> — 这问题简单还是复杂？要不要规划？</span></p>
+        <p style="margin:0 0 8px;"><strong style="color:#1d4ed8;"><span leaf="">Problem Framer 定义问题</span></strong><span leaf=""> — 用户到底要做什么决策？边界在哪？</span></p>
+        <p style="margin:0 0 8px;"><strong style="color:#1d4ed8;"><span leaf="">Planner 拆任务</span></strong><span leaf=""> — 拆成 3-8 个子任务，声明依赖。</span></p>
+        <p style="margin:0 0 8px;"><strong style="color:#1d4ed8;"><span leaf="">Task DAG 任务图</span></strong><span leaf=""> — 带依赖的任务列表，决定谁能并行。</span></p>
+        <p style="margin:0 0 8px;"><strong style="color:#1d4ed8;"><span leaf="">Task Router 任务路由</span></strong><span leaf=""> — 为单个任务选 Agent（复用你的老路由）。</span></p>
+        <p style="margin:0 0 8px;"><strong style="color:#1d4ed8;"><span leaf="">Agent 执行</span></strong><span leaf=""> — 专业 Agent 干活，返回统一格式。</span></p>
+        <p style="margin:0 0 8px;"><strong style="color:#1d4ed8;"><span leaf="">Reflector 反思</span></strong><span leaf=""> — 覆盖全不全？有冲突或缺证据吗？要补任务吗？</span></p>
+        <p style="margin:0 0 8px;"><strong style="color:#1d4ed8;"><span leaf="">Synthesizer 汇总</span></strong><span leaf=""> — 围绕原问题综合，不是粘贴。</span></p>
+        <p style="margin:0;"><strong style="color:#1d4ed8;"><span leaf="">Evaluator 验收</span></strong><span leaf=""> — 答案完整、可信吗？过不了打回。</span></p>
+      </section>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">看着多，其实核心就一句话：</span><strong style="color:#1e3a8a;"><span leaf="">拆开、分工、查漏、收口</span></strong><span leaf="">。这四步任何一个做不好，复杂问题就答不好。</span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1e293b;border-left:4px solid #1d4ed8;padding-left:12px;line-height:1.5;"><span leaf="">四、五个让系统“立得住”的关键设计</span></p>
+
+      <p style="margin:0 0 6px;font-size:15.5px;font-weight:800;color:#1e293b;line-height:1.7;"><span style="display:inline-block;background:#1d4ed8;color:#fff;border-radius:5px;padding:1px 9px;margin-right:8px;font-size:13px;"><span leaf="">01</span></span><span leaf="">Planner 只写“能力需求”，不写死 Agent 名</span></p>
+      <p style="margin:0 0 16px;padding-left:4px;line-height:1.85;color:#475569;"><span leaf="">Planner 输出的是 required_capabilities（需要什么能力），绝不是 environment_agent 这种具体名字。为什么？因为规划层和执行层必须解耦——Agent 换了、升级了，计划不用改。耦合了，整个系统就脆。</span></p>
+
+      <p style="margin:0 0 6px;font-size:15.5px;font-weight:800;color:#1e293b;line-height:1.7;"><span style="display:inline-block;background:#1d4ed8;color:#fff;border-radius:5px;padding:1px 9px;margin-right:8px;font-size:13px;"><span leaf="">02</span></span><span leaf="">所有 Agent 走统一证据协议</span></p>
+      <p style="margin:0 0 16px;padding-left:4px;line-height:1.85;color:#475569;"><span leaf="">每个 Agent 必须返回：conclusion（结论）/ findings（发现）/ evidence（证据）/ assumptions（假设）/ gaps（信息缺口）/ confidence（置信度）。而且每条结论要区分</span><strong style="color:#1e3a8a;"><span leaf="">事实 fact / 推断 inference / 假设 assumption</span></strong><span leaf="">，并挂上 evidence_ids。没这个，汇总就是一锅粥，更别提审计。</span></p>
+
+      <p style="margin:0 0 6px;font-size:15.5px;font-weight:800;color:#1e293b;line-height:1.7;"><span style="display:inline-block;background:#1d4ed8;color:#fff;border-radius:5px;padding:1px 9px;margin-right:8px;font-size:13px;"><span leaf="">03</span></span><span leaf="">Reflector 必须严格受限</span></p>
+      <p style="margin:0 0 16px;padding-left:4px;line-height:1.85;color:#475569;"><span leaf="">“做完反思一下、不够再补”听起来很美，但不受限的反思会让成本无限膨胀。所以必须卡死：初始任务 3-8 个、最大深度 3 层、最多跑 2-3 轮、单轮新增任务不超过 3 个。只在“高度相关 + 可能改变结论 + 现有任务没覆盖 + 预算内”四条同时满足时才加任务。</span></p>
+
+      <p style="margin:0 0 6px;font-size:15.5px;font-weight:800;color:#1e293b;line-height:1.7;"><span style="display:inline-block;background:#1d4ed8;color:#fff;border-radius:5px;padding:1px 9px;margin-right:8px;font-size:13px;"><span leaf="">04</span></span><span leaf="">Synthesizer 是综合器，不是拼接器</span></p>
+      <p style="margin:0 0 16px;padding-left:4px;line-height:1.85;color:#475569;"><span leaf="">两条铁律，是区分“研究”和“糊弄”的底线：一是</span><strong style="color:#1e3a8a;"><span leaf="">不因为多个 Agent 重复同一个观点，就提高置信度</span></strong><span leaf="">（三个 Agent 都说它好，不等于证据更强）；二是</span><strong style="color:#1e3a8a;"><span leaf="">来源冲突不能靠多数投票消解</span></strong><span leaf="">，消解不了必须原样披露。汇总要围绕原始问题重新组织，不是按 Agent 顺序粘贴。</span></p>
+
+      <p style="margin:0 0 16px;font-size:15.5px;font-weight:800;color:#1e293b;line-height:1.7;"><span style="display:inline-block;background:#1d4ed8;color:#fff;border-radius:5px;padding:1px 9px;margin-right:8px;font-size:13px;"><span leaf="">05</span></span><span leaf="">不给用户看思维链，只记录结构化规划</span></p>
+      <p style="margin:0 0 16px;padding-left:4px;line-height:1.85;color:#475569;"><span leaf="">模型的逐字推理过程，既不可控也不可复现，不该写进日志或展示给用户。系统真正该记录的，是结构化的规划信息：目标、子问题、执行计划、任务依赖、证据缺口。给用户看的，只有高层进度——“已生成 5 个研究任务”“正在并行分析”“正在核查证据”。</span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1e293b;border-left:4px solid #1d4ed8;padding-left:12px;line-height:1.5;"><span leaf="">五、背后是一组经典模式，别被名词吓住</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">这套架构不是凭空发明的，它站在几个成熟模式上：</span></p>
+
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#1e3a8a;font-weight:700;"><span leaf="">Plan-and-Execute</span></span><span leaf="">：先规划，后执行。</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#1e3a8a;font-weight:700;"><span leaf="">ReWOO</span></span><span leaf="">：计划里显式声明任务依赖和中间结果引用，不用每步都重新想。</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#1e3a8a;font-weight:700;"><span leaf="">LLMCompiler</span></span><span leaf="">：把计划编译成 DAG，无依赖的任务并行跑。</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#1e3a8a;font-weight:700;"><span leaf="">Supervisor / Worker</span></span><span leaf="">：总控调度多个专业 Agent。</span></p>
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.8;"><span style="color:#1e3a8a;font-weight:700;"><span leaf="">Reflector / Evaluator-Optimizer</span></span><span leaf="">：执行后查缺口，必要时局部补。</span></p>
+
+      <p style="margin:0 0 16px;padding:14px 16px;background:#f8fafc;border-left:3px solid #1d4ed8;border-radius:0 8px 8px 0;line-height:1.85;"><span style="font-size:14.5px;color:#475569;"><span leaf="">一个常见误解：以为这些是要装的三件套。其实——LangGraph 是框架，ReWOO／LLMCompiler／Reflector 是设计模式。你只需要用 LangGraph 把这些思想实现出来就够了，根本不用把它们都引进来。</span></span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">想抄作业，可以看这几个开源：Open Deep Research（最接近，首选）、DeerFlow（字节的，Planner/Reporter 组织得清楚）、GPT Researcher（拆解+来源+报告）、STORM（多视角问题树）、Magentic-One（Orchestrator 进度管理）。</span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1e293b;border-left:4px solid #1d4ed8;padding-left:12px;line-height:1.5;"><span leaf="">六、它和“大模型深度思考”的本质区别</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">用户体验上，这套系统和模型的“深度思考”很像——都不立刻答，而是先拆解、查资料、再综合。但本质上完全不同。这是我做了一年后觉得最值钱的一个认知：</span></p>
+
+      <p style="margin:0 0 10px;padding:14px 16px;background:#f8fafc;border-radius:8px;"><span style="display:block;margin:0 0 6px;font-size:14px;font-weight:700;color:#64748b;"><span leaf="">模型内部的“深度思考”</span></span><span style="display:block;margin:0;font-size:13.5px;color:#64748b;line-height:1.9;"><span leaf="">发生在单次推理内部 · 过程不可控 · 不能暂停恢复 · 不能定向重试 · 工具临时决定 · 中间证据易丢失 · 成本不可控 · 一个模型全干完</span></span></p>
+      <p style="margin:0 0 16px;padding:14px 16px;background:#eff6ff;border-radius:8px;"><span style="display:block;margin:0 0 6px;font-size:14px;font-weight:700;color:#1e3a8a;"><span leaf="">工程化的深度研究系统</span></span><span style="display:block;margin:0;font-size:13.5px;color:#1e3a8a;line-height:1.9;"><span leaf="">拆成多个显式节点 · 任务依赖和状态可控 · 可持久化、能恢复 · 只重试失败的子任务 · Router 按任务匹配 Agent · 证据可存可溯 · 任务数/轮数/预算可限 · 多个专业 Agent 分工</span></span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">一句话：</span><strong style="color:#1e3a8a;"><span leaf="">它实现的是“深度思考”的效果，但用的是 Planner + 任务 DAG + 专业 Agent + Reflector + Synthesizer，把深度思考变成了可执行、可追踪、可重试、可审计的工程流程。</span></strong></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1e293b;border-left:4px solid #1d4ed8;padding-left:12px;line-height:1.5;"><span leaf="">七、它是有状态的研究系统，不是无状态问答</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">普通问答是</span><span leaf="">问题 → 检索 → LLM → 答案</span><span leaf="">，答完就忘。这套系统有一整套数据对象：</span></p>
+
+      <p style="margin:0 0 16px;padding:14px 16px;background:#0f172a;border-radius:8px;font-family:'SF Mono',Consolas,monospace;font-size:13px;line-height:2;color:#67e8f9;"><span leaf="">研究会话 · 问题定义 · 计划 · 任务 · 任务依赖 · 执行结果 · 发现 · 证据 · 冲突 · 反思 · 最终报告</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">这意味着，哪怕 LLM 调用早就结束了，系统仍然知道：用户最初问的是什么、被拆成了哪些任务、哪个 Agent 执行的、每个结论靠什么证据支撑、哪些信息缺失、为什么临时加了任务、最终答案用了哪些中间结果。</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">这才是</span><strong style="color:#1e3a8a;"><span leaf="">研究</span></strong><span leaf="">，不是</span><strong style="color:#1e3a8a;"><span leaf="">聊天</span></strong><span leaf="">。前者留下了一整套可追溯的中间产物，后者只留下一句回答。</span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1e293b;border-left:4px solid #1d4ed8;padding-left:12px;line-height:1.5;"><span leaf="">八、怎么落地：千万别一次重写</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">最大的坑，是想一上来就把整条链路全做出来。正确做法是分阶段：</span></p>
+
+      <p style="margin:0 0 10px;padding:12px 16px;background:#f8fafc;border-radius:8px;border-left:3px solid #94a3b8;"><span style="display:block;margin:0 0 4px;font-size:14px;font-weight:800;color:#1e293b;"><span leaf="">第一版 · 最小闭环</span></span><span style="display:block;margin:0;font-size:13.5px;color:#64748b;line-height:1.8;"><span leaf="">Planner 拆 3-7 个任务 → 老路由按任务选 Agent → 无依赖任务并行 → 统一收集 → Synthesizer 汇总。先不做 Reflector。</span></span></p>
+      <p style="margin:0 0 10px;padding:12px 16px;background:#f8fafc;border-radius:8px;border-left:3px solid #1d4ed8;"><span style="display:block;margin:0 0 4px;font-size:14px;font-weight:800;color:#1e293b;"><span leaf="">第二版 · 协议化</span></span><span style="display:block;margin:0;font-size:13.5px;color:#64748b;line-height:1.8;"><span leaf="">Pydantic 统一任务/结果协议 + 任务依赖 + 并行调度 + 失败重试 + 证据 ID 与引用血缘。</span></span></p>
+      <p style="margin:0 0 16px;padding:12px 16px;background:#f8fafc;border-radius:8px;border-left:3px solid #1e3a8a;"><span style="display:block;margin:0 0 4px;font-size:14px;font-weight:800;color:#1e3a8a;"><span leaf="">第三版 · 反思与验收</span></span><span style="display:block;margin:0;font-size:13.5px;color:#64748b;line-height:1.8;"><span leaf="">加 Reflector（最多一次局部重规划）+ Evaluator + 冲突核验 + 质量和成本监控。</span></span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">技术栈就这一套：</span><strong style="color:#1e3a8a;"><span leaf="">LangGraph</span></strong><span leaf="">（流程、状态、并行、重试、持久化）+ </span><strong style="color:#1e3a8a;"><span leaf="">Pydantic</span></strong><span leaf="">（强类型协议）+ </span><strong style="color:#1e3a8a;"><span leaf="">PostgreSQL</span></strong><span leaf="">（任务状态和证据）+ 对象存储（文档）+ LangSmith（调用链追踪）。</span></p>
+
+      <section style="margin:24px 0;padding:16px 20px;background:#eff6ff;border-left:4px solid #1d4ed8;border-radius:0 8px 8px 0;">
+        <p style="margin:0;font-size:16px;font-weight:700;color:#1e3a8a;line-height:1.8;"><span leaf="">做 AI Agent，“接 API”是最简单的一步。真正难的，是把“深度思考”变成可执行、可追踪、可重试、可审计的工程流程。</span></p>
+      </section>
+
+      <section style="background:#1e3a8a;color:#fff;border-radius:10px;padding:20px 22px;margin:20px 0 24px;">
+        <p style="margin:0;font-size:15.5px;line-height:1.8;"><span leaf="">模型负责聪明；你负责让这份聪明——可控、可信、可交付。这才是 AI 产品和“套壳聊天框”的分水岭，也是我们这种想借 AI 重新拿回主动权的程序员，真正要补的硬功夫。</span></p>
+      </section>
+
+      <p style="text-align:center;color:#64748b;font-size:13px;margin:24px 0 0;"><span leaf="">daydayago </span><span style="color:#1d4ed8;"><span leaf="">·</span></span><span leaf=""> 拥抱变化，努力尝试</span></p>
+
+    </section>
+  </div>
+<script>
+function copyArticle(){
+  var sec = document.querySelector('#stage > section');
+  if(!sec){ alert('未找到正文'); return; }
+  var range = document.createRange();
+  range.selectNodeContents(sec);
+  var sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  try{
+    document.execCommand('copy');
+    var b = document.getElementById('copyBtn');
+    b.textContent = '已复制 ✓';
+    setTimeout(function(){ b.textContent = '复制到公众号'; }, 1500);
+  }catch(e){
+    alert('复制失败，请在预览区手动 Ctrl/⌘+A 全选后 Ctrl/⌘+C 复制');
+  }
+  sel.removeAllRanges();
+}
+</script>
+</body>
+</html>

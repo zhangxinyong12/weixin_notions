@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>预览 · 做了个 AI 问答 Agent</title>
+<style>
+  body{margin:0;background:#f3f4f6;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;}
+  #toolbar{position:sticky;top:0;background:#fff;border-bottom:1px solid #e5e5ea;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.05);z-index:10;}
+  #toolbar .title{font-size:13px;color:#6e6e73;}
+  #copyBtn{background:#0a7368;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:14px;font-weight:600;cursor:pointer;}
+  #copyBtn:hover{background:#0f9b8a;}
+  #stage{max-width:680px;margin:24px auto;background:#fff;padding:24px 0;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.06);}
+</style>
+</head>
+<body>
+  <div id="toolbar">
+    <span class="title">公众号排版预览 · 点右上角一键复制</span>
+    <button id="copyBtn" onclick="copyArticle()">复制到公众号</button>
+  </div>
+  <div id="stage">
+    <section style="max-width:680px;margin:0 auto;padding:24px 16px;font-size:16px;line-height:1.85;color:#1d1d1f;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;">
+
+      <p style="margin:0 0 14px;"><span style="display:inline-block;font-size:12px;letter-spacing:2px;color:#0a7368;background:#e6f5f2;padding:4px 10px;border-radius:4px;font-weight:600;"><span leaf="">AI 架构 · 深度复盘</span></span></p>
+
+      <p style="margin:0 0 12px;font-size:24px;font-weight:800;line-height:1.45;color:#1d1d1f;"><span leaf="">做了个 AI 问答 Agent，我才知道“接个 API”只是第一步</span></p>
+
+      <p style="margin:0 0 26px;font-size:14.5px;color:#6e6e73;line-height:1.9;border-top:1px solid #e5e5ea;border-bottom:1px solid #e5e5ea;padding:14px 4px;"><span leaf="">从“套壳聊天框”到能干活的 Agent，我把每一层都踩了一遍。这篇不讲名词罗列，讲清楚每一层为什么存在、怎么工作、有哪些工程取舍——一个前端转 AI 的人，真正搞懂 Agent 架构的全过程。</span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1d1d1f;border-left:4px solid #0f9b8a;padding-left:12px;line-height:1.5;"><span leaf="">一、“接个 API”为什么一定会翻车</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">最朴素的做法：把用户问题塞进 prompt，调大模型 API，拿回答案返回。这在“陪聊”场景够用。但“问答 Agent”不是陪聊，是要它</span><strong style="color:#0a7368;"><span leaf="">干活</span></strong><span leaf="">。一旦需求升级，这套架构四处漏风。</span></p>
+
+      <p style="margin:0 0 8px;line-height:1.85;"><span style="color:#0a7368;font-weight:700;"><span leaf="">翻车一：用户问“我的订单到哪了”。</span></span><span leaf="">模型没见过你的订单库，于是开始编——这就是幻觉。</span></p>
+      <p style="margin:0 0 8px;line-height:1.85;"><span style="color:#0a7368;font-weight:700;"><span leaf="">翻车二：用户说“帮我取消这笔订单”。</span></span><span leaf="">模型只会说不会做，它调不了你的接口。</span></p>
+      <p style="margin:0 0 16px;line-height:1.85;"><span style="color:#0a7368;font-weight:700;"><span leaf="">翻车三：用户问“分析上季度华南区销量下滑原因”。</span></span><span leaf="">这种问题一次生成答不全，也答不准。</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">本质区别在这：</span></p>
+
+      <p style="margin:0 0 10px;padding:14px 16px;background:#f6f8fa;border-radius:8px;"><span style="display:block;margin:0 0 6px;font-size:13px;font-weight:700;color:#6e6e73;"><span leaf="">聊天框</span></span><span style="display:block;margin:0;font-size:14.5px;color:#6e6e73;line-height:1.9;"><span leaf="">无状态 · 单步 · 无工具 · 无校验</span></span></p>
+      <p style="margin:0 0 18px;padding:14px 16px;background:#e6f5f2;border-radius:8px;"><span style="display:block;margin:0 0 6px;font-size:13px;font-weight:700;color:#0a7368;"><span leaf="">能干活的 Agent</span></span><span style="display:block;margin:0;font-size:14.5px;color:#0a7368;line-height:1.9;"><span leaf="">有记忆 · 多步循环 · 有工具 · 可校验</span></span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">从左到右，每一项都是要你亲手补的能力。下面一层一层拆。</span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1d1d1f;border-left:4px solid #0f9b8a;padding-left:12px;line-height:1.5;"><span leaf="">二、Agent ≠ 模型：差的是一个“控制循环”</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">最该纠正的认知：模型只是一个</span><strong style="color:#0a7368;"><span leaf="">一次性函数</span></strong><span leaf="">——输入 prompt，输出 token。它没有主动性，不会自己决定“下一步做什么”。你问一句它答一句，答完就结束。</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">Agent 是在这个函数外面，套了一个</span><strong style="color:#0a7368;"><span leaf="">循环</span></strong><span leaf="">：拿到任务 → 让模型决策下一步 → 执行（调工具或生成）→ 把结果塞回去 → 再决策……直到模型说“完成了”，或者撞到步数上限。这个循环的学名是</span><strong style="color:#0a7368;"><span leaf="">ReAct</span></strong><span leaf="">（Reasoning + Acting），也就是“边想边做”。</span></p>
+
+      <p style="margin:0 8px 10px;font-size:13px;color:#6e6e73;"><span leaf="">Agent 控制循环的骨架，长这样：</span></p>
+
+      <section style="margin:0 0 16px;border-radius:8px;overflow:hidden;background:#1e293b;">
+        <section style="padding:11px 14px;">
+          <p style="margin:0 0 2px;font-family:'SF Mono',Consolas,monospace;font-size:12.5px;line-height:1.7;color:#94a3b8;"><span leaf="">while not done and step &lt; MAX_STEPS:</span></p>
+          <p style="margin:0 0 2px;font-family:'SF Mono',Consolas,monospace;font-size:12.5px;line-height:1.7;color:#e2e8f0;"><span leaf="">　　thought = llm.think(task, history)　　# 决策：下一步干嘛</span></p>
+          <p style="margin:0 0 2px;font-family:'SF Mono',Consolas,monospace;font-size:12.5px;line-height:1.7;color:#e2e8f0;"><span leaf="">　　if thought.is_final: return thought.answer</span></p>
+          <p style="margin:0 0 2px;font-family:'SF Mono',Consolas,monospace;font-size:12.5px;line-height:1.7;color:#e2e8f0;"><span leaf="">　　result = tools.run(thought.action)　　# 行动：调工具</span></p>
+          <p style="margin:0;font-family:'SF Mono',Consolas,monospace;font-size:12.5px;line-height:1.7;color:#e2e8f0;"><span leaf="">　　history.append(result)　　　　　　　 # 观察：结果塞回去</span></p>
+        </section>
+      </section>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">看起来简单，代价全在循环里：</span><span leaf="">它可能跑飞（死循环、瞎调工具）、token 爆炸（每轮都把历史喂回去）、延迟高（多轮串行）、结果不可重复（同样的输入，决策路径可能不同）。</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">所以工程上的关键取舍是：</span><strong style="color:#0a7368;"><span leaf="">不是所有任务都该让 Agent 全自主</span></strong><span leaf="">。流程固定、要求确定的，用固定工作流；真正多变、需要临场判断的，才交给自主 Agent。生产环境里，绝大多数系统是“工作流做骨架，关键节点放 Agent”。</span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1d1d1f;border-left:4px solid #0f9b8a;padding-left:12px;line-height:1.5;"><span leaf="">三、知识库（RAG）：检索代替记忆，但远不止“向量搜索”</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">模型训练完，知识就冻结了——不知道你的私有数据，也不知道昨天才发生的事。RAG 的思路很直接：</span><strong style="color:#0a7368;"><span leaf="">推理的时候临时把相关资料塞进上下文，让模型“翻着资料答题”</span></strong><span leaf="">，用检索代替记忆。</span></p>
+
+      <p style="margin:0 8px 10px;font-size:13px;color:#6e6e73;"><span leaf="">朴素 RAG 五步：</span></p>
+      <p style="margin:0 0 16px;padding:12px 16px;background:#fafbfc;border-radius:8px;font-size:14.5px;color:#374151;line-height:2;"><span leaf="">切文档 → embedding 向量化 → 存向量库 → 查询时取最相似的 top-k → 拼进 prompt</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">但朴素 RAG 经常翻车，因为：</span><span leaf="">切分糟糕（一句话被切断、表格被切碎）、检索不准（向量相似不等于语义相关）、召回的片段根本答不了问题（需要多跳推理）。</span></p>
+
+      <p style="margin:0 8px 10px;font-size:13px;color:#6e6e73;"><span leaf="">所以生产级 RAG 得叠几层：</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">混合检索</span></span><span leaf="">：向量 + 关键词（BM25）互补，专有名词、编号这类向量搜不准的，关键词能救回来。</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">重排序（rerank）</span></span><span leaf="">：先大范围召回，再用专门的 rerank 模型精排，把最相关的顶上来。</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">父子文档</span></span><span leaf="">：检索用小块（准），返回用大块（上下文全），兼顾精度和完整度。</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">Agentic RAG</span></span><span leaf="">：让 Agent 自己判断“检索到的够不够，要不要再查一次”，而不是一把梭。</span></p>
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">GraphRAG</span></span><span leaf="">：用知识图谱存关系，解决“A 的领导的部门在哪儿”这种多跳。</span></p>
+
+      <p style="margin:0 0 16px;padding:14px 16px;background:#fafbfc;border-left:3px solid #0f9b8a;border-radius:0 8px 8px 0;line-height:1.85;"><span style="font-size:14.5px;color:#374151;"><span leaf="">RAG 也不是万能。知识要持续维护更新、要做权限隔离、答案最好带上引用来源——不然用户凭什么信你。</span></span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1d1d1f;border-left:4px solid #0f9b8a;padding-left:12px;line-height:1.5;"><span leaf="">四、Skill ／ 工具：靠 function calling 让 Agent 长出手</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">没工具的 Agent 就是嘴炮。Skill 是封装好的能力：查订单、算数据、调外部接口、发通知。机制是</span><strong style="color:#0a7368;"><span leaf="">function calling</span></strong><span leaf="">——模型不再吐自由文本，而是输出一段结构化的“我要调用 X 工具、参数是 Y”，由你的代码真正去执行，再把结果喂回模型。</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">换句话说，工具定义就是</span><strong style="color:#0a7368;"><span leaf="">给模型一份“能力说明书”</span></strong><span leaf="">：名字、描述、参数格式。模型是靠“描述”判断该不该用这个工具的——所以描述写得糊，模型就用得乱。</span></p>
+
+      <p style="margin:0 8px 10px;font-size:13px;color:#6e6e73;"><span leaf="">工具设计的几个取舍：</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">粒度</span></span><span leaf="">：一个大而全的工具，模型不会用；一堆碎工具，模型会选错。</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">参数</span></span><span leaf="">：越简单越好，复杂参数模型容易填错。</span></p>
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">错误要结构化</span></span><span leaf="">：工具失败要返回明确错误，让 Agent 能“看见失败、换个办法”，而不是直接崩。</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">工具一多，又冒出新问题：context 膨胀、模型选错。解法是</span><strong style="color:#0a7368;"><span leaf="">工具路由</span></strong><span leaf="">——先粗选和问题相关的几个工具，再交给模型。还有一件容易忽略的事：工具是</span><strong style="color:#e0651a;"><span leaf="">真执行</span></strong><span leaf="">的，调错会真出事，所以要有权限、确认、沙箱和审计。</span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1d1d1f;border-left:4px solid #0f9b8a;padding-left:12px;line-height:1.5;"><span leaf="">五、MCP：把“N × M”的对接灾难，变成“N + M”</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">接工具的痛：3 个模型 × 10 个工具 = 30 套对接代码，写不完、维护不动。</span><span leaf="">MCP（Model Context Protocol）是 Anthropic 提的开放协议，让“能力提供方”和“模型方”标准化对接，从 N × M 降到 N + M。通俗讲，它是</span><strong style="color:#0a7368;"><span leaf="">AI 应用的 USB-C 接口</span></strong><span leaf="">。</span></p>
+
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">三类能力</span></span><span leaf="">：Tools（调用工具）、Resources（读数据）、Prompts（提示模板）。</span></p>
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">生态意义</span></span><span leaf="">：写一次 MCP server，所有支持 MCP 的客户端（Claude、ChatGPT、各种 IDE 和 Agent 框架）都能用。2024 年底 Anthropic 发布，2025 年 OpenAI、Google 相继支持，2026 年基本成了事实标准。</span></p>
+
+      <p style="margin:0 0 16px;padding:14px 16px;background:#fafbfc;border-left:3px solid #0f9b8a;border-radius:0 8px 8px 0;line-height:1.85;"><span style="font-size:14.5px;color:#374151;"><span leaf="">不是银弹。多一层协议有开销，MCP server 可能碰你的敏感数据（安全），成熟度也还在爬坡——但它确实是目前连接外部世界最省事的路子。</span></span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1d1d1f;border-left:4px solid #0f9b8a;padding-left:12px;line-height:1.5;"><span leaf="">六、复杂问题怎么处理：拆解 → 计划 → 执行 → 汇总 → 校验</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">这是我踩坑最深的一层。复杂问题不能“一步生成”，因为单次 LLM 调用等于单步推理，而复杂任务要</span><strong style="color:#0a7368;"><span leaf="">分步、可并行、可回溯、能检查</span></strong><span leaf="">。五步背后是五种工程能力：</span></p>
+
+      <section style="margin:0 0 16px;padding:16px 18px;background:#fafbfc;border-radius:8px;border:1px solid #e5e5ea;">
+        <p style="margin:0 0 12px;font-size:15px;line-height:1.8;"><strong style="color:#0a7368;"><span leaf="">① 拆解 Decomposition</span></strong><span leaf="">：把大问题拆成子问题图。好处是单步变简单、能并行、能分工。难点是“怎么拆才合理”——这本身又得靠 LLM 或规则来定。</span></p>
+        <p style="margin:0 0 12px;font-size:15px;line-height:1.8;"><strong style="color:#0a7368;"><span leaf="">② 计划 Planning</span></strong><span leaf="">：生成执行顺序和依赖。代表模式有 Plan-and-Solve（先全盘计划再执行）、Tree of Thoughts（树状探索多条思路再选最优）。</span></p>
+        <p style="margin:0 0 12px;font-size:15px;line-height:1.8;"><strong style="color:#0a7368;"><span leaf="">③ 执行 Execution</span></strong><span leaf="">：按计划调度。可能是一个 ReAct 循环，可能是固定工作流，也可能是多个 Agent 分工。</span></p>
+        <p style="margin:0 0 12px;font-size:15px;line-height:1.8;"><strong style="color:#0a7368;"><span leaf="">④ 汇总 Aggregation</span></strong><span leaf="">：把多路结果合并成一份答案。难点是矛盾信息怎么取舍、冗余怎么去重、风格怎么统一。</span></p>
+        <p style="margin:0;font-size:15px;line-height:1.8;"><strong style="color:#0a7368;"><span leaf="">⑤ 校验 Verification</span></strong><span leaf="">：自查答案对不对。手段有 Reflexion（做完反思重做）、回头查证、LLM-as-judge（用另一个模型当裁判）、规则校验（数字、格式对不对）。</span></p>
+      </section>
+
+      <p style="margin:0 8px 10px;font-size:13px;color:#6e6e73;"><span leaf="">编排范式的核心抉择——工作流 vs 自主 Agent：</span></p>
+
+      <p style="margin:0 0 10px;padding:14px 16px;background:#f6f8fa;border-radius:8px;"><span style="display:block;margin:0 0 6px;font-size:14px;font-weight:700;color:#1d1d1f;"><span leaf="">工作流 Workflow</span></span><span style="display:block;margin:0;font-size:14px;color:#6e6e73;line-height:1.9;"><span leaf="">流程预定义。确定、可控、便宜、好调试，但死板，应付不了意外。适合步骤固定的任务。</span></span></p>
+      <p style="margin:0 0 16px;padding:14px 16px;background:#e6f5f2;border-radius:8px;"><span style="display:block;margin:0 0 6px;font-size:14px;font-weight:700;color:#0a7368;"><span leaf="">自主 Agent</span></span><span style="display:block;margin:0;font-size:14px;color:#0a7368;line-height:1.9;"><span leaf="">LLM 自己决定下一步。灵活、能应对未知，但不确定、贵、慢、难复现。适合多变、要临场判断的任务。</span></span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">生产里极少用纯 Agent。再往上一层还有</span><strong style="color:#0a7368;"><span leaf="">多 Agent 协作</span></strong><span leaf="">：主管派活给工人（orchestrator-worker）、按专长分工、甚至让几个 Agent 辩论互掐，逼出更靠谱的结论。</span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1d1d1f;border-left:4px solid #0f9b8a;padding-left:12px;line-height:1.5;"><span leaf="">七、市面案例：拆开看它们的架构组成</span></p>
+
+      <p style="margin:0 0 10px;font-size:15px;line-height:1.8;"><strong style="color:#0a7368;"><span leaf="">ChatGPT</span></strong><span leaf="">：GPTs ＝ 指令 + 知识库 + 工具（Actions）+ 触发器；o 系列把思维链训练进了模型内部，reasoning 是隐式的。</span></p>
+      <p style="margin:0 0 10px;font-size:15px;line-height:1.8;"><strong style="color:#0a7368;"><span leaf="">Claude</span></strong><span leaf="">：原生 Tools API + MCP 的发源地 + extended thinking（推理时显式思考）。</span></p>
+      <p style="margin:0 0 10px;font-size:15px;line-height:1.8;"><strong style="color:#0a7368;"><span leaf="">Coze（扣子）</span></strong><span leaf="">：可视化编排——bot + 插件 + 知识库 + 工作流，拖拖拽拽搭出“拆解—执行”的流，门槛最低。</span></p>
+      <p style="margin:0 0 10px;font-size:15px;line-height:1.8;"><strong style="color:#0a7368;"><span leaf="">Dify</span></strong><span leaf="">：开源，workflow + Agent + RAG 一体，能自部署、能接任意模型，适合做企业内部工具。</span></p>
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.8;"><strong style="color:#0a7368;"><span leaf="">Perplexity</span></strong><span leaf="">：检索优先架构，每条答案都带可点击来源——把“校验”直接做成了产品护城河。</span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">你会发现，成熟产品的内核惊人地一致：</span><strong style="color:#0a7368;"><span leaf="">编排层 + 能力层（工具）+ 知识层（RAG）+ 校验层</span></strong><span leaf="">。差别只在于每一层做多深、怎么组合。</span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1d1d1f;border-left:4px solid #0f9b8a;padding-left:12px;line-height:1.5;"><span leaf="">八、上线之后才知道的工程坑</span></p>
+
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">延迟</span></span><span leaf="">：多步 Agent 一次几十秒。靠流式输出、并行子任务、缓存、能提前返回就提前返回。</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">成本</span></span><span leaf="">：token 爆炸。靠简单步骤用小模型、上下文压缩、结果缓存、卡死最大步数。</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">可观测性</span></span><span leaf="">：决策是黑盒，出 bug 没法复现。靠每一步留 trace（输入／输出／工具调用），可回放。</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">评估</span></span><span leaf="">：怎么知道它答得好。靠建 eval set、LLM-as-judge 自动打分、人工抽检。没有 eval，等于盲改。</span></p>
+      <p style="margin:0 0 8px;font-size:15px;line-height:1.8;"><span style="color:#0a7368;font-weight:700;"><span leaf="">可靠性</span></span><span leaf="">：工具挂了、模型抽风、死循环。靠超时、重试、步数上限、fallback 回固定流程。</span></p>
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.8;"><span style="color:#e0651a;font-weight:700;"><span leaf="">安全</span></span><span leaf="">：提示注入（恶意输入劫持 Agent）、工具滥用、数据泄露——这是 Agent 比聊天框危险得多的地方。</span></p>
+
+      <p style="margin:32px 0 14px;font-size:19px;font-weight:800;color:#1d1d1f;border-left:4px solid #0f9b8a;padding-left:12px;line-height:1.5;"><span leaf="">九、我的架构是怎么一步步长出来的</span></p>
+
+      <p style="margin:0 0 10px;padding:12px 16px;background:#fafbfc;border-radius:8px;border-left:3px solid #e5e5ea;"><span style="display:block;margin:0 0 4px;font-size:14px;font-weight:800;color:#1d1d1f;"><span leaf="">v0　直接调 API</span></span><span style="display:block;margin:0;font-size:14px;color:#6e6e73;line-height:1.8;"><span leaf="">能聊，但不能干活。</span></span></p>
+      <p style="margin:0 0 10px;padding:12px 16px;background:#fafbfc;border-radius:8px;border-left:3px solid #e5e5ea;"><span style="display:block;margin:0 0 4px;font-size:14px;font-weight:800;color:#1d1d1f;"><span leaf="">v1　＋ 知识库（RAG）</span></span><span style="display:block;margin:0;font-size:14px;color:#6e6e73;line-height:1.8;"><span leaf="">能答私有知识了，但问题一复杂就乱。</span></span></p>
+      <p style="margin:0 0 10px;padding:12px 16px;background:#fafbfc;border-radius:8px;border-left:3px solid #e5e5ea;"><span style="display:block;margin:0 0 4px;font-size:14px;font-weight:800;color:#1d1d1f;"><span leaf="">v2　＋ 工具（function calling）</span></span><span style="display:block;margin:0;font-size:14px;color:#6e6e73;line-height:1.8;"><span leaf="">能动手了，但不会规划，乱调一气。</span></span></p>
+      <p style="margin:0 0 10px;padding:12px 16px;background:#fafbfc;border-radius:8px;border-left:3px solid #0f9b8a;"><span style="display:block;margin:0 0 4px;font-size:14px;font-weight:800;color:#0a7368;"><span leaf="">v3　＋ 编排（拆解—计划—执行）</span></span><span style="display:block;margin:0;font-size:14px;color:#6e6e73;line-height:1.8;"><span leaf="">能处理复杂问题了，但偶尔一本正经地胡说。</span></span></p>
+      <p style="margin:0 0 16px;padding:12px 16px;background:#fafbfc;border-radius:8px;border-left:3px solid #0a7368;"><span style="display:block;margin:0 0 4px;font-size:14px;font-weight:800;color:#0a7368;"><span leaf="">v4　＋ 校验 ＋ 可观测</span></span><span style="display:block;margin:0;font-size:14px;color:#6e6e73;line-height:1.8;"><span leaf="">终于敢上线了。</span></span></p>
+
+      <p style="margin:0 0 16px;line-height:1.85;"><span leaf="">每一代解决一个主要矛盾，又冒出一个新矛盾。这就是做 AI 产品的真实节奏。</span></p>
+
+      <section style="margin:24px 0;padding:16px 20px;background:#e6f5f2;border-left:4px solid #0f9b8a;border-radius:0 8px 8px 0;">
+        <p style="margin:0;font-size:16px;font-weight:700;color:#0a7368;line-height:1.8;"><span leaf="">API 给你的只是一颗会聊天的脑子。真正能干活的 Agent，是你在它外面亲手搭起来的那一整套：循环、工具、知识、编排、校验、可观测。</span></p>
+      </section>
+
+      <section style="background:#0a7368;color:#fff;border-radius:10px;padding:20px 22px;margin:20px 0 24px;">
+        <p style="margin:0;font-size:15.5px;line-height:1.8;"><span leaf="">这些脏活累活，才是“AI 产品”和“套壳聊天框”的分水岭——也是我们这种想借 AI 重新拿回主动权的程序员，真正要补的认知。</span></p>
+      </section>
+
+      <p style="text-align:center;color:#6e6e73;font-size:13px;margin:24px 0 0;"><span leaf="">daydayago </span><span style="color:#0f9b8a;"><span leaf="">·</span></span><span leaf=""> 拥抱变化，努力尝试</span></p>
+
+    </section>
+  </div>
+<script>
+function copyArticle(){
+  var sec = document.querySelector('#stage > section');
+  if(!sec){ alert('未找到正文'); return; }
+  var range = document.createRange();
+  range.selectNodeContents(sec);
+  var sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  try{
+    document.execCommand('copy');
+    var b = document.getElementById('copyBtn');
+    b.textContent = '已复制 ✓';
+    setTimeout(function(){ b.textContent = '复制到公众号'; }, 1500);
+  }catch(e){
+    alert('复制失败，请在预览区手动 Ctrl/⌘+A 全选后 Ctrl/⌘+C 复制');
+  }
+  sel.removeAllRanges();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPT-5.6 的魔幻 24 小时：碾压、翻车和一场全员口水战</title>
+<style>
+  :root{
+    --bg:#f3f4f6;
+    --card:#ffffff;
+    --ink:#1d1d1f;
+    --soft:#6e6e73;
+    --line:#e5e5ea;
+    --teal:#0f9b8a;       /* 理性/数据主色 */
+    --teal-deep:#0a7368;
+    --orange:#e0651a;     /* 翻车/争议 */
+    --good:#16a34a;
+    --bad:#dc2626;
+    --code:#1e293b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+    font-size:16px;
+    line-height:1.85;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:680px;
+    margin:24px auto;
+    background:var(--card);
+    padding:46px 28px 54px;
+    box-shadow:0 8px 40px rgba(20,20,40,.08);
+    border-radius:10px;
+  }
+  .tag{
+    display:inline-block;
+    font-size:12px;
+    letter-spacing:2px;
+    color:var(--teal-deep);
+    background:#e6f5f2;
+    padding:4px 10px;
+    border-radius:4px;
+    margin-bottom:16px;
+    font-weight:600;
+  }
+  h1{
+    font-size:26px;
+    line-height:1.45;
+    margin:0 0 12px;
+    font-weight:800;
+    letter-spacing:-.2px;
+  }
+  .lede{
+    color:var(--soft);
+    font-size:14.5px;
+    line-height:1.9;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:14px 4px;
+    margin:22px 0 28px;
+  }
+  /* 章节标题：带幕数 */
+  .act{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin:40px 0 14px;
+  }
+  .act .num{
+    font-family:"JetBrains Mono","Menlo",monospace;
+    font-size:13px;
+    color:#fff;
+    background:var(--ink);
+    padding:3px 8px;
+    border-radius:4px;
+    font-weight:700;
+    flex-shrink:0;
+  }
+  .act h2{
+    font-size:19.5px;
+    margin:0;
+    font-weight:750;
+    line-height:1.4;
+  }
+  h3{
+    font-size:16px;
+    color:var(--teal-deep);
+    margin:24px 0 10px;
+    font-weight:700;
+  }
+  p{margin:0 0 17px;}
+  strong{color:var(--ink);font-weight:700;}
+  .hl{color:var(--teal-deep);font-weight:700;}
+  .warn{color:var(--orange);font-weight:700;}
+  .mono{font-family:"JetBrains Mono","Menlo",monospace;}
+  .score{
+    font-family:"JetBrains Mono","Menlo",monospace;
+    background:#0f172a;
+    color:#5eead4;
+    padding:2px 7px;
+    border-radius:4px;
+    font-size:14.5px;
+    font-weight:600;
+  }
+  /* 引用 */
+  blockquote{
+    margin:20px 0;
+    padding:14px 18px;
+    background:#fafafa;
+    border-left:3px solid var(--orange);
+    border-radius:0 4px 4px 0;
+    color:#444;
+    font-size:15px;
+  }
+  blockquote .src{display:block;margin-top:6px;font-size:12.5px;color:var(--soft);}
+  /* 三档模型卡片 */
+  .models{
+    display:flex;
+    gap:10px;
+    margin:18px 0 6px;
+    flex-wrap:wrap;
+  }
+  .model{
+    flex:1 1 0;
+    min-width:150px;
+    background:#fafbfc;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 12px;
+  }
+  .model .name{font-size:15px;font-weight:800;margin:2px 0 4px;}
+  .model .sym{font-size:20px;}
+  .model .desc{font-size:12.5px;color:var(--soft);line-height:1.6;}
+  .m1{border-top:3px solid var(--ink);}
+  .m2{border-top:3px solid var(--teal);}
+  .m3{border-top:3px solid var(--orange);}
+  /* 优缺点两栏 */
+  .proscons{display:flex;gap:12px;margin:18px 0;flex-wrap:wrap;}
+  .pc{flex:1 1 240px;border-radius:8px;padding:16px 16px 14px;}
+  .pc h4{margin:0 0 10px;font-size:14px;letter-spacing:1px;}
+  .pc ul{margin:0;padding-left:2px;list-style:none;}
+  .pc li{position:relative;padding-left:22px;margin-bottom:9px;font-size:14px;line-height:1.7;}
+  .pc li::before{position:absolute;left:0;top:0;font-weight:800;}
+  .pros{background:#f0faf3;}
+  .pros h4{color:var(--good);}
+  .pros li::before{content:"✓";color:var(--good);}
+  .cons{background:#fdf3f2;}
+  .cons h4{color:var(--bad);}
+  .cons li::before{content:"✗";color:var(--bad);}
+  .divider{text-align:center;color:var(--line);letter-spacing:6px;margin:26px 0;font-size:12px;}
+  .takeaway{
+    background:linear-gradient(135deg,#0f9b8a,#0a7368);
+    color:#fff;
+    border-radius:10px;
+    padding:20px 22px;
+    margin:24px 0;
+  }
+  .takeaway .k{font-size:12px;letter-spacing:2px;opacity:.85;margin-bottom:6px;}
+  .takeaway p{margin:0;font-size:15.5px;line-height:1.8;}
+  .note{
+    margin-top:30px;
+    padding:14px 16px;
+    background:#fafafa;
+    border:1px dashed var(--line);
+    border-radius:6px;
+    font-size:13px;
+    color:var(--soft);
+    line-height:1.75;
+  }
+  .signoff{text-align:center;margin-top:34px;color:var(--soft);font-size:13px;}
+  .signoff .dot{color:var(--teal);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="tag">AI · 模型观察</span>
+  <h1>GPT-5.6 的魔幻 24 小时<br>碾压、翻车，和一场全员口水战</h1>
+  <div class="lede">
+    7 月 9 号，OpenAI 全量上线 GPT-5.6，号称史上最强。但我刷了一圈，总觉得这场发布哪里不对——不像发布会，更像一出全员翻车的群像剧。作为一个天天用 AI 干活的程序员，我跟你聊聊这场热闹里，到底哪些是噪音，哪些跟你有关。
+  </div>
+
+  <!-- 事实速览 -->
+  <h3>先说事实：GPT-5.6 是个啥</h3>
+  <p>这次不是发一个模型，是发了一组，外加三档定位：</p>
+  <div class="models">
+    <div class="model m1">
+      <div class="sym">☀</div>
+      <div class="name">Sol · 太阳</div>
+      <div class="desc">旗舰，最强。主打硬核编码和网络安全。</div>
+    </div>
+    <div class="model m2">
+      <div class="sym">🌍</div>
+      <div class="name">Terra · 大地</div>
+      <div class="desc">均衡档，性能对标上一代 GPT-5.5，价格砍半。</div>
+    </div>
+    <div class="model m3">
+      <div class="sym">🌙</div>
+      <div class="name">Luna · 月亮</div>
+      <div class="desc">最快、最便宜，日常够用。</div>
+    </div>
+  </div>
+  <p style="font-size:14px;color:var(--soft);">另外：上下文窗口从 100 万拉到 <span class="mono">150 万</span> tokens；旗舰 Sol 新增 <span class="mono">max</span>（深度推理）和 <span class="mono">ultra</span>（堆算力）两档；还附送了一个 GPT-Live 语音模型。</p>
+
+  <div class="divider">— — —</div>
+
+  <!-- 第一幕 -->
+  <div class="act"><span class="num">ACT 01</span><h2>跑分赢了 0.8 分，宣传成"碾压"</h2></div>
+
+  <p>最热闹的一仗，是在跑分榜上打的。</p>
+  <p>终端任务跑分 TerminalBench 2.1 上，GPT-5.6 Sol 拿了 <span class="score">88.8%</span>，Claude Mythos 5 是 <span class="score">88.0%</span>。赢了 <span class="hl">0.8 个百分点</span>。</p>
+  <p>然后你猜宣传口径是什么——"碾压""痛失最强基模王座""地表最强易主"。</p>
+  <p>0.8 分。说实话，这种差距落在你实际写代码的时候，你根本感觉不到。测评圈也不买账：</p>
+  <blockquote>
+    "要打赢 Fable 5，光靠刷分可不行。"
+    <span class="src">—— 雷峰网，标题就点在跑分争议上</span>
+  </blockquote>
+  <blockquote>
+    "Claude 是更强的底座，哪怕 GPT 的分数更高。"
+    <span class="src">—— eesel AI 测评，一句被传开的话</span>
+  </blockquote>
+  <p>我的看法很直白：<span class="hl">跑分已经卷到对用户没意义了</span>。0.8 个百分点的差距，答不了我真正关心的问题——"让它改一个三万行的屎山项目，能不能一次跑通""让它接一个完整需求，能不能直接交付"。这些，跑分榜上一个字都不会告诉你。</p>
+
+  <!-- 第二幕 -->
+  <div class="act"><span class="num">ACT 02</span><h2>史上最强，结果"没人狂欢"</h2></div>
+
+  <p>真正魔幻的，不是跑分，是发布本身。</p>
+  <p>GPT-5.6 其实 6 月底就做好了，但<strong>被美国政府按住了</strong>。理由是 Sol 的网络安全能力太强——到了能做漏洞研究、漏洞利用的级别，触发国安审查。于是先搞了个"一客一审"，只放给一小撮审查过的合作方用，普通用户前两周<strong>只能看，不能摸</strong>。拖到 7 月 9 号才全量放开。</p>
+  <p>有篇报道的标题很扎眼：</p>
+  <blockquote>
+    "GPT-5.6 发了，没人狂欢？"
+    <span class="src">—— DOIT，指出全球多数用户根本用不上</span>
+  </blockquote>
+  <p>这事儿最讽刺的地方在于：OpenAI 把 Sol 训得太强，强到<span class="warn">被自己政府当成了风险</span>。这叫"被自己太强坑了"。</p>
+  <p>但这背后有个跟你我有关的趋势：<span class="hl">最强的模型，正在变得越来越"难用到"</span>。审查、配额、地区限制、风控拦截……当 Sol 这种旗舰要先过一关又一关才能摸到，对普通程序员来说，那些能开箱即用、稳定不掉线的模型，反而是日常干活更现实的选择。</p>
+
+  <!-- 第三幕 -->
+  <div class="act"><span class="num">ACT 03</span><h2>想踩的对手，反而反超了</h2></div>
+
+  <p>这波监管其实是从 Anthropic 开的头——美国政府先以"越狱风险"封了 Claude 的 Fable 5 和 Mythos 5。</p>
+  <p>OpenAI 本来想趁对手被封、趁机上位，宣传攻势拉满，口号是"换掉 Claude Code"。结果同一个监管框架，回头就把 GPT-5.6 也一起按住了。<strong>伤敌一千，自损八百。</strong></p>
+  <p>更尴尬的是资本市场：在同一波风浪里，<span class="warn">Anthropic 的估值反超了 OpenAI</span>。投资人用钱投票，根本不在乎你这周发不发新模型。</p>
+  <p>我的看法：<span class="hl">别把 AI 当偶像剧看</span>。OpenAI 和 Anthropic 谁赢谁输，跟你今晚能不能把单子交了，没半毛钱关系。</p>
+
+  <div class="divider">— — —</div>
+
+  <!-- 优缺点 -->
+  <div class="act"><span class="num">清单</span><h2>优缺点：程序员视角，干脆点</h2></div>
+
+  <div class="proscons">
+    <div class="pc pros">
+      <h4>✓ 优点</h4>
+      <ul>
+        <li><strong>150 万上下文</strong>，喂大项目更从容，不用来回切片</li>
+        <li><strong>agentic 编程</strong>和长周期编码提升明显</li>
+        <li><strong>Terra / Luna 性价比狠</strong>（媒体称成本约为 Claude 同档的 1/16）</li>
+        <li><strong>网络安全能力顶级</strong>——虽然这也是它被审查的原因</li>
+        <li>max / ultra 模式，给硬任务留了深推理的档位</li>
+      </ul>
+    </div>
+    <div class="pc cons">
+      <h4>✗ 缺点</h4>
+      <ul>
+        <li><strong>旗舰 Sol 前期难拿到</strong>，审查门槛高</li>
+        <li><strong>跑分领先幅度小</strong>，对实际干活的体感提升存疑</li>
+        <li><strong>SWE-Bench</strong>（软件工程跑分）这块社区有争议，没拉开差距</li>
+        <li><strong>国内可用性、稳定性差</strong>，网络和合规都是坑</li>
+        <li>复杂编码、长文起草，Claude 仍是更稳的底子（多家测评共识）</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>附赠：测评圈的"潜规则共识"</h3>
+  <p style="font-size:14.5px;">
+    <span class="hl">结构化任务、按指令填表</span> → GPT 强 ｜
+    <span class="hl">复杂项目、屎山重构、长文起草</span> → Claude 强 ｜
+    <span class="hl">创意发散、超长上下文</span> → Gemini 强
+  </p>
+  <p style="font-size:14.5px;color:var(--soft);">没有全能冠军，只有"你这个场景，该用谁"。</p>
+
+  <!-- 落点 -->
+  <div class="takeaway">
+    <div class="k">给你的一句话</div>
+    <p>别当精神股东。搞清楚你干活最吃的那两三个场景，每个场景配一个最稳的模型，就够了。模型是工具，不是信仰——你今晚要交的单子，不会因为你是哪家的粉丝就自动跑完。</p>
+  </div>
+
+  <p>程序员想借 AI 重新拿回主动权，第一步其实很朴素：<strong>别被发布会的热闹牵着鼻子走，把注意力放回"我到底要解决什么问题"</strong>。</p>
+  <p>GPT-5.6 强不强？强。但它强在跑分榜上，不一定强在你的工位上。</p>
+
+  <div class="note">
+    事实说明：本文数据与争议均基于 2026 年 7 月公开报道（OpenAI 官方、Reuters、爱范儿、雷峰网、智源社区、eesel 等）。跑分、价格、估值等数字以官方与第三方最新披露为准；"刷分争议""降智"等为社区与媒体讨论，非定论。GPT-5.6 国内可用性受合规与网络影响，请以实际访问为准。
+  </div>
+
+  <div class="signoff">
+    daydayago <span class="dot">·</span> 拥抱变化，努力尝试
+  </div>
+
+</div>
+</body>
+</html>

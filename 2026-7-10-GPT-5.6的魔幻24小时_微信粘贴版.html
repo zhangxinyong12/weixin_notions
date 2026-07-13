@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPT-5.6 的魔幻 24 小时（微信粘贴版）</title>
+</head>
+<body>
+
+<!-- 使用说明：在浏览器打开本文件，Ctrl+A 全选 → Ctrl+C 复制 → 粘贴到微信公众号编辑器。所有样式均为内联，粘贴后不丢样式。 -->
+
+<div style="max-width:680px;margin:0 auto;padding:20px 16px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;font-size:16px;line-height:1.85;color:#1d1d1f;">
+
+  <span style="display:inline-block;font-size:12px;letter-spacing:2px;color:#0a7368;background:#e6f5f2;padding:4px 10px;border-radius:4px;font-weight:600;margin-bottom:14px;">AI · 模型观察</span>
+
+  <h1 style="font-size:24px;line-height:1.45;margin:0 0 10px;font-weight:800;letter-spacing:-.2px;color:#1d1d1f;">GPT-5.6 的魔幻 24 小时<br>碾压、翻车，和一场全员口水战</h1>
+
+  <div style="color:#6e6e73;font-size:14.5px;line-height:1.9;border-top:1px solid #e5e5ea;border-bottom:1px solid #e5e5ea;padding:14px 4px;margin:20px 0 26px;">7 月 9 号，OpenAI 全量上线 GPT-5.6，号称史上最强。但我刷了一圈，总觉得这场发布哪里不对——不像发布会，更像一出全员翻车的群像剧。作为一个天天用 AI 干活的程序员，我跟你聊聊这场热闹里，到底哪些是噪音，哪些跟你有关。</div>
+
+  <h3 style="font-size:16px;color:#0a7368;margin:24px 0 10px;font-weight:700;">先说事实：GPT-5.6 是个啥</h3>
+
+  <p style="margin:0 0 14px;">这次不是发一个模型，是发了一组，外加三档定位：</p>
+
+  <!-- 三档模型：上下堆叠（微信不吃 flex） -->
+  <div style="border:1px solid #e5e5ea;border-left:4px solid #1d1d1f;background:#fafbfc;border-radius:6px;padding:12px 14px;margin-bottom:8px;"><span style="font-size:18px;">☀</span> <strong style="color:#1d1d1f;">Sol · 太阳</strong> — 旗舰，最强。主打硬核编码和网络安全。</div>
+  <div style="border:1px solid #e5e5ea;border-left:4px solid #0f9b8a;background:#fafbfc;border-radius:6px;padding:12px 14px;margin-bottom:8px;"><span style="font-size:18px;">🌍</span> <strong style="color:#1d1d1f;">Terra · 大地</strong> — 均衡档，性能对标上一代 GPT-5.5，价格砍半。</div>
+  <div style="border:1px solid #e5e5ea;border-left:4px solid #e0651a;background:#fafbfc;border-radius:6px;padding:12px 14px;margin-bottom:10px;"><span style="font-size:18px;">🌙</span> <strong style="color:#1d1d1f;">Luna · 月亮</strong> — 最快、最便宜，日常够用。</div>
+
+  <p style="font-size:14px;color:#6e6e73;margin:0 0 18px;">另外：上下文窗口从 100 万拉到 <span style="font-family:monospace;">150 万</span> tokens；旗舰 Sol 新增 <span style="font-family:monospace;">max</span>（深度推理）和 <span style="font-family:monospace;">ultra</span>（堆算力）两档；还附送了一个 GPT-Live 语音模型。</p>
+
+  <div style="text-align:center;color:#ccc;letter-spacing:6px;margin:24px 0;font-size:12px;">— — —</div>
+
+  <!-- 第一幕 -->
+  <div style="margin:30px 0 10px;"><span style="display:inline-block;font-family:monospace;font-size:12px;color:#fff;background:#1d1d1f;padding:3px 8px;border-radius:4px;font-weight:700;margin-right:8px;">ACT 01</span><strong style="font-size:19px;color:#1d1d1f;">跑分赢了 0.8 分，宣传成"碾压"</strong></div>
+
+  <p style="margin:0 0 16px;">最热闹的一仗，是在跑分榜上打的。</p>
+  <p style="margin:0 0 16px;">终端任务跑分 TerminalBench 2.1 上，GPT-5.6 Sol 拿了 <span style="font-family:monospace;background:#0f172a;color:#5eead4;padding:2px 7px;border-radius:4px;font-size:14px;font-weight:600;">88.8%</span>，Claude Mythos 5 是 <span style="font-family:monospace;background:#0f172a;color:#5eead4;padding:2px 7px;border-radius:4px;font-size:14px;font-weight:600;">88.0%</span>。赢了 <strong style="color:#0a7368;">0.8 个百分点</strong>。</p>
+  <p style="margin:0 0 16px;">然后你猜宣传口径是什么——"碾压""痛失最强基模王座""地表最强易主"。</p>
+  <p style="margin:0 0 16px;">0.8 分。说实话，这种差距落在你实际写代码的时候，你根本感觉不到。测评圈也不买账：</p>
+
+  <div style="margin:18px 0;padding:14px 16px;background:#fafafa;border-left:3px solid #e0651a;border-radius:0 4px 4px 0;color:#444;font-size:15px;">"要打赢 Fable 5，光靠刷分可不行。"<br><span style="font-size:12.5px;color:#6e6e73;">—— 雷峰网，标题就点在跑分争议上</span></div>
+
+  <div style="margin:18px 0;padding:14px 16px;background:#fafafa;border-left:3px solid #e0651a;border-radius:0 4px 4px 0;color:#444;font-size:15px;">"Claude 是更强的底座，哪怕 GPT 的分数更高。"<br><span style="font-size:12.5px;color:#6e6e73;">—— eesel AI 测评，一句被传开的话</span></div>
+
+  <p style="margin:0 0 16px;">我的看法很直白：<strong style="color:#0a7368;">跑分已经卷到对用户没意义了</strong>。0.8 个百分点的差距，答不了我真正关心的问题——"让它改一个三万行的屎山项目，能不能一次跑通""让它接一个完整需求，能不能直接交付"。这些，跑分榜上一个字都不会告诉你。</p>
+
+  <!-- 第二幕 -->
+  <div style="margin:30px 0 10px;"><span style="display:inline-block;font-family:monospace;font-size:12px;color:#fff;background:#1d1d1f;padding:3px 8px;border-radius:4px;font-weight:700;margin-right:8px;">ACT 02</span><strong style="font-size:19px;color:#1d1d1f;">史上最强，结果"没人狂欢"</strong></div>
+
+  <p style="margin:0 0 16px;">真正魔幻的，不是跑分，是发布本身。</p>
+  <p style="margin:0 0 16px;">GPT-5.6 其实 6 月底就做好了，但<strong style="color:#1d1d1f;">被美国政府按住了</strong>。理由是 Sol 的网络安全能力太强——到了能做漏洞研究、漏洞利用的级别，触发国安审查。于是先搞了个"一客一审"，只放给一小撮审查过的合作方用，普通用户前两周<strong style="color:#1d1d1f;">只能看，不能摸</strong>。拖到 7 月 9 号才全量放开。</p>
+  <p style="margin:0 0 16px;">有篇报道的标题很扎眼：</p>
+
+  <div style="margin:18px 0;padding:14px 16px;background:#fafafa;border-left:3px solid #e0651a;border-radius:0 4px 4px 0;color:#444;font-size:15px;">"GPT-5.6 发了，没人狂欢？"<br><span style="font-size:12.5px;color:#6e6e73;">—— DOIT，指出全球多数用户根本用不上</span></div>
+
+  <p style="margin:0 0 16px;">这事儿最讽刺的地方在于：OpenAI 把 Sol 训得太强，强到<strong style="color:#e0651a;">被自己政府当成了风险</strong>。这叫"被自己太强坑了"。</p>
+  <p style="margin:0 0 16px;">但这背后有个跟你我有关的趋势：<strong style="color:#0a7368;">最强的模型，正在变得越来越"难用到"</strong>。审查、配额、地区限制、风控拦截……当 Sol 这种旗舰要先过一关又一关才能摸到，对普通程序员来说，那些能开箱即用、稳定不掉线的模型，反而是日常干活更现实的选择。</p>
+
+  <!-- 第三幕 -->
+  <div style="margin:30px 0 10px;"><span style="display:inline-block;font-family:monospace;font-size:12px;color:#fff;background:#1d1d1f;padding:3px 8px;border-radius:4px;font-weight:700;margin-right:8px;">ACT 03</span><strong style="font-size:19px;color:#1d1d1f;">想踩的对手，反而反超了</strong></div>
+
+  <p style="margin:0 0 16px;">这波监管其实是从 Anthropic 开的头——美国政府先以"越狱风险"封了 Claude 的 Fable 5 和 Mythos 5。</p>
+  <p style="margin:0 0 16px;">OpenAI 本来想趁对手被封、趁机上位，宣传攻势拉满，口号是"换掉 Claude Code"。结果同一个监管框架，回头就把 GPT-5.6 也一起按住了。<strong style="color:#1d1d1f;">伤敌一千，自损八百。</strong></p>
+  <p style="margin:0 0 16px;">更尴尬的是资本市场：在同一波风浪里，<strong style="color:#e0651a;">Anthropic 的估值反超了 OpenAI</strong>。投资人用钱投票，根本不在乎你这周发不发新模型。</p>
+  <p style="margin:0 0 16px;">我的看法：<strong style="color:#0a7368;">别把 AI 当偶像剧看</strong>。OpenAI 和 Anthropic 谁赢谁输，跟你今晚能不能把单子交了，没半毛钱关系。</p>
+
+  <div style="text-align:center;color:#ccc;letter-spacing:6px;margin:24px 0;font-size:12px;">— — —</div>
+
+  <!-- 优缺点 -->
+  <div style="margin:30px 0 10px;"><span style="display:inline-block;font-family:monospace;font-size:12px;color:#fff;background:#1d1d1f;padding:3px 8px;border-radius:4px;font-weight:700;margin-right:8px;">清单</span><strong style="font-size:19px;color:#1d1d1f;">优缺点：程序员视角，干脆点</strong></div>
+
+  <!-- 优点块 -->
+  <div style="background:#f0faf3;border-radius:8px;padding:16px;margin-bottom:12px;">
+    <div style="color:#16a34a;font-size:14px;font-weight:700;letter-spacing:1px;margin-bottom:10px;">✓ 优点</div>
+    <div style="font-size:14.5px;line-height:1.75;margin-bottom:8px;">✓ <strong>150 万上下文</strong>，喂大项目更从容，不用来回切片</div>
+    <div style="font-size:14.5px;line-height:1.75;margin-bottom:8px;">✓ <strong>agentic 编程</strong>和长周期编码提升明显</div>
+    <div style="font-size:14.5px;line-height:1.75;margin-bottom:8px;">✓ <strong>Terra / Luna 性价比狠</strong>（媒体称成本约为 Claude 同档的 1/16）</div>
+    <div style="font-size:14.5px;line-height:1.75;margin-bottom:8px;">✓ <strong>网络安全能力顶级</strong>——虽然这也是它被审查的原因</div>
+    <div style="font-size:14.5px;line-height:1.75;">✓ max / ultra 模式，给硬任务留了深推理的档位</div>
+  </div>
+
+  <!-- 缺点块 -->
+  <div style="background:#fdf3f2;border-radius:8px;padding:16px;margin-bottom:18px;">
+    <div style="color:#dc2626;font-size:14px;font-weight:700;letter-spacing:1px;margin-bottom:10px;">✗ 缺点</div>
+    <div style="font-size:14.5px;line-height:1.75;margin-bottom:8px;">✗ <strong>旗舰 Sol 前期难拿到</strong>，审查门槛高</div>
+    <div style="font-size:14.5px;line-height:1.75;margin-bottom:8px;">✗ <strong>跑分领先幅度小</strong>，对实际干活的体感提升存疑</div>
+    <div style="font-size:14.5px;line-height:1.75;margin-bottom:8px;">✗ <strong>SWE-Bench</strong>（软件工程跑分）这块社区有争议，没拉开差距</div>
+    <div style="font-size:14.5px;line-height:1.75;margin-bottom:8px;">✗ <strong>国内可用性、稳定性差</strong>，网络和合规都是坑</div>
+    <div style="font-size:14.5px;line-height:1.75;">✗ 复杂编码、长文起草，Claude 仍是更稳的底子（多家测评共识）</div>
+  </div>
+
+  <h3 style="font-size:16px;color:#0a7368;margin:24px 0 10px;font-weight:700;">附赠：测评圈的"潜规则共识"</h3>
+  <p style="font-size:14.5px;margin:0 0 8px;"><strong style="color:#0a7368;">结构化任务、按指令填表</strong> → GPT 强</p>
+  <p style="font-size:14.5px;margin:0 0 8px;"><strong style="color:#0a7368;">复杂项目、屎山重构、长文起草</strong> → Claude 强</p>
+  <p style="font-size:14.5px;margin:0 0 8px;"><strong style="color:#0a7368;">创意发散、超长上下文</strong> → Gemini 强</p>
+  <p style="font-size:14.5px;color:#6e6e73;margin:0 0 18px;">没有全能冠军，只有"你这个场景，该用谁"。</p>
+
+  <!-- 落点 takeaway：纯色（微信不吃渐变） -->
+  <div style="background:#0a7368;color:#fff;border-radius:10px;padding:20px 22px;margin:24px 0;">
+    <div style="font-size:12px;letter-spacing:2px;opacity:.85;margin-bottom:6px;">给你的一句话</div>
+    <p style="margin:0;font-size:15.5px;line-height:1.8;">别当精神股东。搞清楚你干活最吃的那两三个场景，每个场景配一个最稳的模型，就够了。模型是工具，不是信仰——你今晚要交的单子，不会因为你是哪家的粉丝就自动跑完。</p>
+  </div>
+
+  <p style="margin:0 0 16px;">程序员想借 AI 重新拿回主动权，第一步其实很朴素：<strong style="color:#1d1d1f;">别被发布会的热闹牵着鼻子走，把注意力放回"我到底要解决什么问题"</strong>。</p>
+  <p style="margin:0 0 18px;">GPT-5.6 强不强？强。但它强在跑分榜上，不一定强在你的工位上。</p>
+
+  <div style="padding:14px 16px;background:#fafafa;border:1px dashed #e5e5ea;border-radius:6px;font-size:13px;color:#6e6e73;line-height:1.75;margin-bottom:20px;">事实说明：本文数据与争议均基于 2026 年 7 月公开报道（OpenAI 官方、Reuters、爱范儿、雷峰网、智源社区、eesel 等）。跑分、价格、估值等数字以官方与第三方最新披露为准；"刷分争议""降智"等为社区与媒体讨论，非定论。GPT-5.6 国内可用性受合规与网络影响，请以实际访问为准。</div>
+
+  <div style="text-align:center;color:#6e6e73;font-size:13px;">daydayago <span style="color:#0f9b8a;">·</span> 拥抱变化，努力尝试</div>
+
+</div>
+
+</body>
+</html>
