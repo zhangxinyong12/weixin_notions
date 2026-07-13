@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-7-13-接了个1万块的独立站我让AI去GitHub找模板_排版_石墨极简风(graphite-minimal) · 公众号排版预览</title>
+<style>
+  body{margin:0;background:#eef0f2;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;-webkit-text-size-adjust:100%;}
+  .gzh-toolbar{position:fixed;top:0;left:0;right:0;height:54px;background:#ffffff;box-shadow:0 1px 10px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:99;}
+  .gzh-hint{font-size:13px;color:#6b7280;line-height:1.4;}
+  .gzh-hint b{color:#111827;}
+  .gzh-copy{background:#059669;color:#fff;border:0;border-radius:9px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 3px 10px rgba(5,150,105,.28);white-space:nowrap;transition:transform .08s,background .15s;}
+  .gzh-copy:hover{background:#047857;}
+  .gzh-copy:active{transform:translateY(1px);}
+  .gzh-toast{position:fixed;top:66px;left:50%;transform:translateX(-50%);background:#111827;color:#fff;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .25s;z-index:100;box-shadow:0 6px 20px rgba(0,0,0,.25);max-width:88vw;text-align:center;}
+  .gzh-toast.show{opacity:1;}
+  .gzh-stage{max-width:700px;margin:78px auto 64px;padding:0 8px;}
+  @media(max-width:520px){.gzh-hint{max-width:150px;}}
+</style>
+</head>
+<body>
+<div class="gzh-toolbar">
+  <span class="gzh-hint">👇 下方是排版效果 · 点右侧 <b>复制</b> 直接粘到公众号</span>
+  <button class="gzh-copy" id="gzhCopyBtn" onclick="gzhCopy()">📋 复制到公众号</button>
+</div>
+<div class="gzh-toast" id="gzhToast"></div>
+<div class="gzh-stage">
+  <div id="gzh-content">
+<section style="max-width:677px;margin:0 auto;background:#FFFFFF;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;color:#52525B;line-height:1.8;letter-spacing:0.3px;overflow-x:hidden;">
+
+  <section style="margin:10px 10px 40px;padding:32px 24px 24px;border-top:1px solid #E4E4E7;border-bottom:1px solid #E4E4E7;background:#FFFFFF;">
+    <p style="font-size:11px;color:#A1A1AA;letter-spacing:2px;margin:0 0 18px;font-weight:400;">
+      <span leaf="">QUOTE</span>
+    </p>
+    <p style="font-size:18px;font-weight:700;color:#27272A;margin:0 0 8px;line-height:1.7;letter-spacing:0.5px;">
+      <span leaf="">接单早就不是“写代码”了，是</span>
+      <span style="border-bottom:2px solid #52525B;"><span leaf="">对齐需求、找轮子、在轮子上改</span></span>
+      <span leaf="">。</span>
+    </p>
+    <p style="text-align:right;font-size:12px;color:#A1A1AA;margin:16px 0 0;letter-spacing:1px;">
+      <span leaf="">—— daydayago</span>
+    </p>
+  </section>
+
+  <section style="padding:0 10px;">
+    <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+      <span leaf="">前两天接了个独立站的小单子，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">1 万块</span></span><span leaf="">。</span>
+    </p>
+    <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+      <span leaf="">客户需求</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">一句话就说完了</span></span><span leaf="">：想做个独立站。</span>
+    </p>
+    <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+      <span leaf="">放半年前，我第一反应是</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">开始算账</span></span><span leaf="">。</span>
+    </p>
+    <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+      <span leaf="">要几个页面？要不要后台？数据存哪？域名部署谁管？算下来，1 万块这个价，可能不太够，得</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">砍需求或者加钱</span></span><span leaf="">。</span>
+    </p>
+    <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+      <span leaf="">但这次我</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">没这么想</span></span><span leaf="">。</span>
+    </p>
+    <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+      <span leaf="">我把整个活</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">拆成了三步</span></span><span leaf="">，每一步都让 AI 干主体。</span>
+    </p>
+    <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+      <span leaf="">预计</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">一周搞定</span></span><span leaf="">，实际可能更快。</span>
+    </p>
+  </section>
+
+  <section style="padding:0 10px 40px;">
+    <p style="font-size:11px;color:#A1A1AA;margin:0 0 16px;letter-spacing:2px;">
+      <span leaf="">本文看点</span>
+    </p>
+    <section style="display:flex;justify-content:space-between;">
+      <section style="flex:1;background:#FAFAFA;border-top:1px solid #E4E4E7;padding:18px 12px 16px;margin-right:8px;">
+        <p style="font-size:11px;color:#A1A1AA;font-weight:500;margin:0 0 8px;letter-spacing:1px;"><span leaf="">01</span></p>
+        <p style="font-size:13px;font-weight:700;color:#27272A;margin:0;line-height:1.5;"><span leaf="">把公司材料丢给 AI，让它自己长出官网</span></p>
+      </section>
+      <section style="flex:1;background:#FAFAFA;border-top:1px solid #E4E4E7;padding:18px 12px 16px;margin-right:8px;">
+        <p style="font-size:11px;color:#A1A1AA;font-weight:500;margin:0 0 8px;letter-spacing:1px;"><span leaf="">02</span></p>
+        <p style="font-size:13px;font-weight:700;color:#27272A;margin:0;line-height:1.5;"><span leaf="">去 GitHub 找现成模板，简单二开</span></p>
+      </section>
+      <section style="flex:1;background:#FAFAFA;border-top:1px solid #E4E4E7;padding:18px 12px 16px;">
+        <p style="font-size:11px;color:#A1A1AA;font-weight:500;margin:0 0 8px;letter-spacing:1px;"><span leaf="">03</span></p>
+        <p style="font-size:13px;font-weight:700;color:#27272A;margin:0;line-height:1.5;"><span leaf="">守住边界，1 万块才赚得到</span></p>
+      </section>
+    </section>
+  </section>
+
+  <section style="margin-top:16px;margin-bottom:32px;padding:0 10px;">
+    <section style="position:relative;padding-bottom:20px;border-bottom:1px solid #E4E4E7;">
+      <p style="font-size:48px;font-weight:900;color:#E4E4E7;margin:0;line-height:1;letter-spacing:-2px;">
+        <span leaf="">01</span>
+      </p>
+      <section style="margin-top:-8px;">
+        <p style="font-size:10px;color:#A1A1AA;font-weight:500;letter-spacing:3px;margin:0 0 6px;text-transform:uppercase;">
+          <span leaf="">BRIEF</span>
+        </p>
+        <h3 style="font-size:20px;font-weight:800;color:#27272A;margin:0;letter-spacing:0.5px;line-height:1.4;">
+          <span leaf="">别让客户描述，把他公司的东西丢给 AI</span>
+        </h3>
+      </section>
+    </section>
+    <section style="padding-top:28px;">
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">这一步我之前讲过用 AI 画原型对齐需求。这次往前再走一步，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">玩得更狠</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">以前是：客户</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">口头描述需求</span></span><span leaf="">，我根据描述让 AI 画原型。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">问题是客户描述自己的产品，未必比他公司的</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">宣传材料更准</span></span><span leaf="">。“做得高端一点”“科技感强一点”——这种词，每个人脑子里想的都不一样。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">更狠的办法：</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">别让客户描述了</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">让他把</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">公司现有的东西</span></span><span leaf="">直接发过来——产品说明书、宣传册、PPT、现有的老官网、产品图册，哪怕几张参考图，什么都行。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">把这些一股脑</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">丢给 AI</span></span><span leaf="">，让它去读、去理解。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">AI 读完，自己就能抓出</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">产品的调性</span></span><span leaf="">：这是个高端品牌还是性价比工具？面向 B 端还是 C 端？风格该冷峻一点还是温暖一点？</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">然后让它根据这个理解，直接出</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">官网的原型和样式</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">好处很直接：原型不是你拍脑袋画的，</span><strong style="color:#27272A;"><span leaf="">是从客户真实的产品里“长”出来的</span></strong><span leaf="">。客户一看，“对，这就是我们公司的感觉”。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">这一步省下的，不只是返工，还有你跟客户互相</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">猜心思的时间</span></span><span leaf="">。</span>
+      </p>
+      <section style="border-left:2px solid #E4E4E7;padding:12px 0 12px 20px;margin:0;">
+        <p style="font-size:13px;color:#A1A1AA;margin:0;line-height:1.8;text-align:justify;">
+          <span leaf="">基础的原型对齐，看我之前那篇《接了 5 单才懂单干和上班的区别》。这次是升级版。</span>
+        </p>
+      </section>
+    </section>
+  </section>
+
+  <section style="margin-top:56px;margin-bottom:32px;padding:0 10px;">
+    <section style="position:relative;padding-bottom:20px;border-bottom:1px solid #E4E4E7;">
+      <p style="font-size:48px;font-weight:900;color:#E4E4E7;margin:0;line-height:1;letter-spacing:-2px;">
+        <span leaf="">02</span>
+      </p>
+      <section style="margin-top:-8px;">
+        <p style="font-size:10px;color:#A1A1AA;font-weight:500;letter-spacing:3px;margin:0 0 6px;text-transform:uppercase;">
+          <span leaf="">SEARCH</span>
+        </p>
+        <h3 style="font-size:20px;font-weight:800;color:#27272A;margin:0;letter-spacing:0.5px;line-height:1.4;">
+          <span leaf="">让 AI 去 GitHub 找现成的轮子</span>
+        </h3>
+      </section>
+    </section>
+    <section style="padding-top:28px;">
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">原型和样式都定了，下一步</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">不是打开编辑器写代码</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">是找。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">我把原型图丢给 AI。上一步它已经吃透了产品的调性，我直接让它按这个风格，去 GitHub 上找结构最接近、</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">气质也搭的开源模板</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">这一步以前我</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">从没想过</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">以前接单，习惯性思维就是</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">从零开始</span></span><span leaf="">。建项目、配依赖、搭路由、写组件，光搭架子就要一两天。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">但其实你想要的东西，GitHub 上</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">早有人做过了</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">独立站这种需求尤其明显。官网模板、落地页模板、电商模板、个人主页模板，NextJS 生态里</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">一抓一大把</span></span><span leaf="">，很多还维护得不错。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">让 AI 在几百个模板里帮你挑出最接近原型的那个，比你自己一个个翻 README </span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">快太多了</span></span><span leaf="">。</span>
+      </p>
+      <section style="border-left:3px solid #52525B;padding:16px 0 16px 24px;margin:0;">
+        <p style="font-size:16px;font-weight:700;color:#27272A;margin:0;line-height:1.7;letter-spacing:0.5px;">
+          <span leaf="">「90% 的独立站需求，GitHub 上都有现成的轮子。没必要自己造。」</span>
+        </p>
+      </section>
+    </section>
+  </section>
+
+  <section style="margin-top:56px;margin-bottom:32px;padding:0 10px;">
+    <section style="position:relative;padding-bottom:20px;border-bottom:1px solid #E4E4E7;">
+      <p style="font-size:48px;font-weight:900;color:#E4E4E7;margin:0;line-height:1;letter-spacing:-2px;">
+        <span leaf="">03</span>
+      </p>
+      <section style="margin-top:-8px;">
+        <p style="font-size:10px;color:#A1A1AA;font-weight:500;letter-spacing:3px;margin:0 0 6px;text-transform:uppercase;">
+          <span leaf="">CUSTOMIZE</span>
+        </p>
+        <h3 style="font-size:20px;font-weight:800;color:#27272A;margin:0;letter-spacing:0.5px;line-height:1.4;">
+          <span leaf="">在模板上简单二开</span>
+        </h3>
+      </section>
+    </section>
+    <section style="padding-top:28px;">
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">找到模板，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">clone 下来</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">剩下的活，就是</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">按原型的样子去改</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">换文案、调配色、换图片、加几个页面、改几个组件。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">听着简单，其实有个隐藏的门槛：你得</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">先读懂别人怎么写的</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">模板不是你的代码。它的目录结构、它用的状态管理、它封装组件的方式，都是别人的习惯。上手就改，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">很容易改崩</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">这也是我以前不爱用模板的原因——读别人的代码，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">比自己写还累</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">但现在 AI 能</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">帮你读</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">把整个项目丢进去，问它：这个文件干嘛的、数据怎么流动、我想加个 XX 功能该改哪里。它能</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">给你指路</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">“二开”的门槛，被 AI </span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">拉低了一大截</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">以前是“读懂代码 + 改代码”，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">两件事都费劲</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">现在是“AI 帮你读懂 + 改代码”，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">主要费劲的就剩改了</span></span><span leaf="">。</span>
+      </p>
+    </section>
+  </section>
+
+  <section style="margin-top:56px;margin-bottom:32px;padding:0 10px;">
+    <section style="position:relative;padding-bottom:20px;border-bottom:1px solid #E4E4E7;">
+      <p style="font-size:48px;font-weight:900;color:#E4E4E7;margin:0;line-height:1;letter-spacing:-2px;">
+        <span leaf="">04</span>
+      </p>
+      <section style="margin-top:-8px;">
+        <p style="font-size:10px;color:#A1A1AA;font-weight:500;letter-spacing:3px;margin:0 0 6px;text-transform:uppercase;">
+          <span leaf="">REALITY</span>
+        </p>
+        <h3 style="font-size:20px;font-weight:800;color:#27272A;margin:0;letter-spacing:0.5px;line-height:1.4;">
+          <span leaf="">但第一版交了，麻烦才刚开始</span>
+        </h3>
+      </section>
+    </section>
+    <section style="padding-top:28px;">
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">上面这套流程，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">做出第一版很快</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">但你要清楚：第一版交出去，才是</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">真正费劲的开始</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">客户看到东西“诶，像模像样”，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">立马就开始提意见</span></span><span leaf="">：这个按钮换个颜色、这个间距太大、这个版式再调调、这里能不能加个动画。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">每一句都不大。但架不住多。一轮两轮改下来，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">三五天就没了</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">前面 AI 帮你省下的时间，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">全搭在这些 UI 微调上</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">所以我说 1 万块这个价，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">勉勉强强</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">前提是——你得</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">把客户管住</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">接单的时候，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">话就得讲死</span></span><span leaf="">：交付包含几轮修改、超出怎么算、UI 大改算新需求、加页面另收费。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">这不是抠门</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">是 AI 让你出活快，但</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">不等于你的时间不值钱</span></span><span leaf="">。</span>
+      </p>
+      <section style="border-left:3px solid #52525B;padding:16px 0 16px 24px;margin:0;">
+        <p style="font-size:16px;font-weight:700;color:#27272A;margin:0;line-height:1.7;letter-spacing:0.5px;">
+          <span leaf="">「利润不是光靠省出来的，是靠守住边界守出来的。」</span>
+        </p>
+      </section>
+    </section>
+  </section>
+
+  <section style="margin-top:56px;margin-bottom:32px;padding:0 10px;">
+    <section style="position:relative;padding-bottom:20px;border-bottom:1px solid #E4E4E7;">
+      <p style="font-size:48px;font-weight:900;color:#E4E4E7;margin:0;line-height:1;letter-spacing:-2px;">
+        <span leaf="">05</span>
+      </p>
+      <section style="margin-top:-8px;">
+        <p style="font-size:10px;color:#A1A1AA;font-weight:500;letter-spacing:3px;margin:0 0 6px;text-transform:uppercase;">
+          <span leaf="">ESSENCE</span>
+        </p>
+        <h3 style="font-size:20px;font-weight:800;color:#27272A;margin:0;letter-spacing:0.5px;line-height:1.4;">
+          <span leaf="">接单这件事，本质变了</span>
+        </h3>
+      </section>
+    </section>
+    <section style="padding-top:28px;">
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">把三步串起来看，我发现</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">接单的逻辑变了</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">以前接单，是</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">写代码</span></span><span leaf="">。按工时算钱。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">现在接单，是</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">拼装</span></span><span leaf="">。对齐需求 + 找轮子 + 在轮子上改。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">1 万块的独立站，纯手撸，我可能要</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">两周</span></span><span leaf="">，累，还不怎么赚钱。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">用这套流程，一周甚至三五天。利润率完全</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">不是一个量级</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">而且这不是个例。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">小程序、落地页、内部工具、个人主页，这些“看起来要写一堆代码”的活，本质都</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">能套这个流程</span></span><span leaf="">：先用 AI 把需求具象化，再去找现成的项目，最后做最小改动。</span>
+      </p>
+      <section style="border-left:3px solid #52525B;padding:16px 0 16px 24px;margin:0;">
+        <p style="font-size:16px;font-weight:700;color:#27272A;margin:0;line-height:1.7;letter-spacing:0.5px;">
+          <span leaf="">「真正难的从来不是写代码，是把客户脑子里那个模糊的东西，变成一个具体的、能交付的东西。」</span>
+        </p>
+      </section>
+      <p style="margin:22px 0 0;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">AI 让这件事</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">变得很便宜</span></span><span leaf="">。</span>
+      </p>
+    </section>
+  </section>
+
+  <section style="margin-top:56px;margin-bottom:32px;padding:0 10px;">
+    <section style="position:relative;padding-bottom:20px;border-bottom:1px solid #E4E4E7;">
+      <p style="font-size:48px;font-weight:900;color:#E4E4E7;margin:0;line-height:1;letter-spacing:-2px;">
+        <span leaf="">06</span>
+      </p>
+      <section style="margin-top:-8px;">
+        <p style="font-size:10px;color:#A1A1AA;font-weight:500;letter-spacing:3px;margin:0 0 6px;text-transform:uppercase;">
+          <span leaf="">VALUE</span>
+        </p>
+        <h3 style="font-size:20px;font-weight:800;color:#27272A;margin:0;letter-spacing:0.5px;line-height:1.4;">
+          <span leaf="">程序员的价值在挪位置</span>
+        </h3>
+      </section>
+    </section>
+    <section style="padding-top:28px;">
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">聊到这，我想说个</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">更大的判断</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">当 AI 能帮你画原型、找模板、读懂别人的代码、改样式，一个程序员的</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">价值到底在哪</span></span><span leaf="">？</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">我觉得在</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">挪位置</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">从“我会写”，挪到</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">“我知道找什么、拼什么、哪样改是对的”</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">写代码这个动作，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">门槛在被拉平</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">但“判断一个需求该用什么轮子”、“评估一个模板能不能撑住客户后面的需求”、“知道哪里该自己写、哪里该用现成的”——这些判断，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">AI 暂时替不了</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">这套流程里，真正值钱的是我做的</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">两个决定</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">一个是</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">“不从零写，去找模板”</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">一个是</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">“找来的模板，怎么改才不会埋雷”</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">写代码被 AI 接走了，这两个决定，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">还得我自己拍</span></span><span leaf="">。</span>
+      </p>
+    </section>
+  </section>
+
+  <section style="margin-top:56px;margin-bottom:32px;padding:0 10px;">
+    <section style="position:relative;padding-bottom:20px;border-bottom:1px solid #E4E4E7;">
+      <p style="font-size:48px;font-weight:900;color:#E4E4E7;margin:0;line-height:1;letter-spacing:-2px;">
+        <span leaf="">∞</span>
+      </p>
+      <section style="margin-top:-8px;">
+        <p style="font-size:10px;color:#A1A1AA;font-weight:500;letter-spacing:3px;margin:0 0 6px;text-transform:uppercase;">
+          <span leaf="">THE END</span>
+        </p>
+        <h3 style="font-size:20px;font-weight:800;color:#27272A;margin:0;letter-spacing:0.5px;line-height:1.4;">
+          <span leaf="">最后</span>
+        </h3>
+      </section>
+    </section>
+    <section style="padding-top:28px;">
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">这套流程我打算</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">固定下来</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">往后接这种小单子，第一反应不再是从零评估工期，而是先问一句：这玩意儿 GitHub 上</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">有没有现成的</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">有，就接，</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">走三步</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">没有，再考虑值不值得自己写。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">下一单，我想试试把</span><span style="border-bottom:2px solid #52525B;font-weight:600;color:#27272A;"><span leaf="">报价再提一档</span></span><span leaf="">。</span>
+      </p>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.8;text-align:justify;color:#52525B;letter-spacing:0.3px;">
+        <span leaf="">反正交付时间已经被压下来了，</span><strong style="color:#27272A;"><span leaf="">省下来的时间，就是利润。</span></strong>
+      </p>
+    </section>
+  </section>
+
+  <section style="padding:0 10px;">
+    <section style="text-align:center;margin:0 0 36px;">
+      <section style="display:flex;align-items:center;justify-content:center;">
+        <span style="height:1px;width:48px;background:#E4E4E7;margin-right:16px;"><span leaf=""><br></span></span>
+        <span style="font-size:10px;color:#A1A1AA;letter-spacing:4px;font-weight:500;"><span leaf="">END</span></span>
+        <span style="height:1px;width:48px;background:#E4E4E7;margin-left:16px;"><span leaf=""><br></span></span>
+      </section>
+    </section>
+  </section>
+
+  <section style="padding:0 10px 24px;">
+    <section style="border-top:1px solid #E4E4E7;padding-top:28px;">
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.8;color:#52525B;text-align:justify;">
+        <span leaf="">我是 daydayago，一个用 AI 把自己从“写页面的人”，重新训练成“能做产品、能接单、能独立开发的人”。</span>
+      </p>
+      <p style="margin:0;font-size:15px;line-height:1.8;color:#52525B;text-align:justify;">
+        <span leaf="">如果你觉得今天这篇有收获，欢迎</span>
+        <strong style="color:#27272A;"><span leaf="">点赞、在看、转发</span></strong>
+        <span leaf="">三连，我们下篇见。</span>
+      </p>
+    </section>
+  </section>
+
+</section>
+  </div>
+</div>
+<script>
+  function gzhShowToast(msg){
+    var t=document.getElementById('gzhToast');
+    t.textContent=msg;t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer=setTimeout(function(){t.classList.remove('show');},2800);
+  }
+  function gzhCopy(){
+    var el=document.getElementById('gzh-content');
+    // 选中渲染后的富文本节点并复制（等价于手动 Ctrl+A / Ctrl+C，保留全部样式）
+    var range=document.createRange();
+    range.selectNodeContents(el);
+    var sel=window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    var ok=false;
+    try{ok=document.execCommand('copy');}catch(e){ok=false;}
+    sel.removeAllRanges();
+    var btn=document.getElementById('gzhCopyBtn');
+    if(ok){
+      gzhShowToast('✅ 已复制！去公众号编辑器按 Ctrl/⌘+V 粘贴即可');
+      var old=btn.textContent;btn.textContent='✅ 已复制';
+      setTimeout(function(){btn.textContent=old;},2200);
+    }else{
+      gzhShowToast('⚠ 自动复制失败，请手动全选(Ctrl/⌘+A)再复制(Ctrl/⌘+C)');
+    }
+  }
+</script>
+</body>
+</html>
